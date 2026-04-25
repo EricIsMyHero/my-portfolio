@@ -85,45 +85,50 @@ function showLinks(category, btn) {
   // Köhnə linkləri sil
   container.innerHTML = "";
 
-  // Tab highlight
+  // Tab highlight — btn null ola bilər (proqramlı çağırışda)
   document.querySelectorAll(".tab").forEach(t => {
     t.classList.remove("active");
     t.setAttribute("aria-selected", "false");
   });
+
   if (btn) {
     btn.classList.add("active");
     btn.setAttribute("aria-selected", "true");
   } else {
-    // İlk tab-ı aktiv et (ilk yüklənmədə)
-    const firstTab = document.querySelector(".tab");
-    if (firstTab) {
-      firstTab.classList.add("active");
-      firstTab.setAttribute("aria-selected", "true");
-    }
+    // Kateqoriyaya uyğun tab-ı tap və aktiv et
+    document.querySelectorAll(".tab").forEach(t => {
+      if (t.getAttribute("onclick") && t.getAttribute("onclick").includes(`'${category}'`)) {
+        t.classList.add("active");
+        t.setAttribute("aria-selected", "true");
+      }
+    });
   }
 
   // Linkləri render et
-  items.forEach((link, i) => {
+  items.forEach((link, idx) => {
     const a = document.createElement("a");
     a.className = "link-item";
     a.href = link.url || "#";
-    a.target = "_blank";
+    // mailto linklərini yeni tabda açma
+    a.target = link.url && link.url.startsWith("mailto:") ? "_self" : "_blank";
     a.rel = "noopener noreferrer";
     a.setAttribute("role", "listitem");
-    a.style.animationDelay = (i * 0.07) + "s";
+    a.style.animationDelay = (idx * 0.07) + "s";
 
-    // İkon
+    // İkon — "fas fa-...", "fab fa-...", "fa-solid fa-..." kimi FA class-ları
     const iconEl = document.createElement("div");
     iconEl.className = "link-icon";
 
-    if (link.faIcon) {
-      // Font Awesome ikonası (məs: "fa-brands fa-instagram")
-      const i = document.createElement("i");
-      i.className = link.faIcon;
-      iconEl.appendChild(i);
+    const iconVal = link.icon || "";
+    const isFaIcon = iconVal.startsWith("fa");
+
+    if (isFaIcon) {
+      const iTag = document.createElement("i");
+      iTag.className = iconVal;
+      iconEl.appendChild(iTag);
     } else {
-      // Emoji ikonası
-      iconEl.textContent = link.icon || "🔗";
+      // Emoji və ya digər mətn ikonu
+      iconEl.textContent = iconVal || "🔗";
     }
 
     // Label
