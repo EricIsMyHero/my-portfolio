@@ -1,67 +1,1047 @@
 <!DOCTYPE html>
-<html lang="az">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EricIsMyHero — Ali</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ali — Web Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ── Reset & Variables ─────────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --black:   #080808;
+  --off:     #111111;
+  --card:    #161616;
+  --border:  rgba(255,255,255,0.07);
+  --muted:   #555;
+  --text:    #d8d4cc;
+  --white:   #f0ebe0;
+  --gold:    #c9a84c;
+  --gold2:   #e8c97a;
+  --glow:    rgba(201,168,76,0.15);
+  --r:       14px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* ── Noise texture overlay ─────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.028;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── Page fade-in ──────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(12px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.page-wrapper { animation: fadeIn 0.9s ease both; }
+
+/* ── Navbar ────────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 22px 7%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.4s, backdrop-filter 0.4s;
+}
+nav.scrolled {
+  background: rgba(8,8,8,0.82);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.5px;
+  text-decoration: none;
+}
+.nav-logo span { color: var(--gold); }
+
+.nav-links { display:flex; gap:36px; align-items:center; }
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  transition: color 0.2s;
+  position: relative;
+}
+.nav-links a::after {
+  content:'';
+  position:absolute;
+  left:0; bottom:-3px;
+  width:0; height:1px;
+  background: var(--gold);
+  transition: width 0.3s;
+}
+.nav-links a:hover { color: var(--white); }
+.nav-links a:hover::after { width:100%; }
+
+.nav-cta {
+  padding: 9px 20px;
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  color: var(--gold) !important;
+  font-size: 13px !important;
+  transition: background 0.25s, color 0.25s !important;
+}
+.nav-cta:hover {
+  background: var(--gold) !important;
+  color: var(--black) !important;
+}
+.nav-cta::after { display:none !important; }
+
+/* ── Hero ──────────────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  padding: 0 7%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Large decorative letter */
+.hero-bg-letter {
+  position: absolute;
+  right: -2%;
+  top: 50%;
+  transform: translateY(-55%);
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(200px, 28vw, 420px);
+  font-weight: 900;
+  font-style: italic;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(201,168,76,0.08);
+  user-select: none;
+  pointer-events: none;
+  line-height: 1;
+}
+
+/* Glow orb */
+.hero::after {
+  content:'';
+  position:absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.10), transparent 70%);
+  right: -100px; top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.hero-left { position:relative; z-index:1; }
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.hero-eyebrow::before {
+  content:'';
+  display:block;
+  width:28px; height:1px;
+  background: var(--gold);
+}
+
+.hero-left h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(40px, 5.5vw, 72px);
+  font-weight: 900;
+  line-height: 1.08;
+  color: var(--white);
+  letter-spacing: -1px;
+  margin-bottom: 22px;
+}
+.hero-left h1 em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.hero-left p {
+  font-size: 17px;
+  color: var(--muted);
+  max-width: 420px;
+  line-height: 1.75;
+  margin-bottom: 38px;
+  font-weight: 300;
+}
+
+.hero-btns { display:flex; gap:14px; flex-wrap:wrap; }
+
+.btn {
+  display: inline-block;
+  padding: 13px 26px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.3px;
+  transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+}
+.btn:active { transform: scale(0.96); }
+
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  color: var(--black);
+  box-shadow: 0 4px 24px rgba(201,168,76,0.25);
+}
+.btn-gold:hover { filter: brightness(1.1); box-shadow: 0 8px 32px rgba(201,168,76,0.35); transform: translateY(-2px); }
+
+.btn-ghost {
+  border: 1px solid var(--border);
+  color: var(--text);
+  background: rgba(255,255,255,0.03);
+}
+.btn-ghost:hover { border-color: rgba(255,255,255,0.18); color: var(--white); transform: translateY(-2px); }
+
+/* Hero right — stats block */
+.hero-right {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 26px 30px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.stat-card::before {
+  content:'';
+  position:absolute;
+  top:0; left:0; right:0;
+  height:1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity:0;
+  transition: opacity 0.3s;
+}
+.stat-card:hover { border-color: rgba(201,168,76,0.2); transform: translateX(6px); }
+.stat-card:hover::before { opacity: 1; }
+
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.stat-num span { color: var(--gold); }
+.stat-label { font-size: 13px; color: var(--muted); font-weight: 400; letter-spacing: 0.5px; }
+
+.stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+/* ── Section shell ─────────────────────────────────── */
+.section {
+  padding: 110px 7%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  margin-bottom: 60px;
+}
+.section-num {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.5px;
+}
+.section-line {
+  flex:1;
+  height:1px;
+  background: var(--border);
+  margin-left: 10px;
+}
+
+/* ── Scroll reveal ─────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* ── Projects ──────────────────────────────────────── */
+.featured-project {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  margin-bottom: 24px;
+  transition: border-color 0.3s;
+}
+.featured-project:hover { border-color: rgba(201,168,76,0.25); }
+
+.fp-image {
+  background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+  min-height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  position: relative;
+  overflow: hidden;
+}
+.fp-image::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  background: linear-gradient(135deg, rgba(201,168,76,0.05), transparent);
+}
+.fp-image img {
+  width:100%;
+  height:100%;
+  object-fit: cover;
+  position:absolute;
+  inset:0;
+}
+
+.fp-content {
+  padding: 44px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.fp-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 30px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 18px;
+  width: fit-content;
+}
+.fp-content h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 14px;
+  line-height: 1.2;
+}
+.fp-content p {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 26px;
+  font-weight: 300;
+}
+.fp-tags { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:30px; }
+
+.tag {
+  padding: 5px 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 12px;
+  color: var(--muted);
+  transition: border-color 0.2s, color 0.2s;
+}
+.tag:hover { border-color: var(--gold); color: var(--gold); }
+
+.fp-links { display:flex; gap:12px; }
+
+.link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 18px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.link-btn svg { width:14px; height:14px; }
+.link-btn-filled {
+  background: var(--gold);
+  color: var(--black);
+}
+.link-btn-filled:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.link-btn-outline {
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.link-btn-outline:hover { border-color: rgba(255,255,255,0.2); color: var(--white); transform: translateY(-1px); }
+
+/* Grid projects */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.project-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), box-shadow 0.3s, border-color 0.3s;
+  cursor: pointer;
+}
+.project-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  border-color: rgba(201,168,76,0.18);
+}
+
+.card-thumb {
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 52px;
+  position: relative;
+  overflow: hidden;
+}
+.card-thumb img {
+  width:100%; height:100%; object-fit:cover;
+  transition: transform 0.4s;
+}
+.project-card:hover .card-thumb img { transform: scale(1.06); }
+.card-thumb-overlay {
+  position:absolute;
+  inset:0;
+  background: linear-gradient(to top, rgba(22,22,22,0.8) 0%, transparent 60%);
+  opacity:0;
+  transition: opacity 0.3s;
+  display:flex;
+  align-items:flex-end;
+  padding:16px;
+  gap:8px;
+}
+.project-card:hover .card-thumb-overlay { opacity:1; }
+.thumb-link {
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:7px 12px;
+  background:rgba(255,255,255,0.12);
+  backdrop-filter:blur(8px);
+  border-radius:8px;
+  font-size:12px;
+  font-weight:500;
+  color:#fff;
+  text-decoration:none;
+  border:1px solid rgba(255,255,255,0.15);
+  transition:background 0.2s;
+}
+.thumb-link:hover { background:rgba(255,255,255,0.22); }
+.thumb-link svg { width:12px; height:12px; }
+
+.card-body { padding:20px 22px 22px; }
+.card-body h3 {
+  font-family:'Playfair Display', serif;
+  font-size:18px;
+  font-weight:700;
+  color:var(--white);
+  margin-bottom:8px;
+}
+.card-body p { font-size:13px; color:var(--muted); line-height:1.65; margin-bottom:14px; font-weight:300; }
+.card-tags { display:flex; flex-wrap:wrap; gap:6px; }
+.card-tag {
+  padding:3px 9px;
+  background:rgba(201,168,76,0.08);
+  border:1px solid rgba(201,168,76,0.15);
+  border-radius:20px;
+  font-size:11px;
+  color:rgba(201,168,76,0.7);
+}
+
+/* ── About ─────────────────────────────────────────── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 70px;
+  align-items: start;
+}
+
+.about-image-wrap {
+  position: relative;
+}
+.about-image-frame {
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--card);
+  aspect-ratio: 4/5;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:80px;
+}
+.about-image-frame img { width:100%; height:100%; object-fit:cover; }
+
+/* Floating badge */
+.about-badge {
+  position: absolute;
+  bottom: -16px;
+  right: -16px;
+  background: var(--gold);
+  color: var(--black);
+  border-radius: 14px;
+  padding: 16px 20px;
+  font-size:13px;
+  font-weight:700;
+  line-height:1.2;
+  box-shadow: 0 12px 40px rgba(201,168,76,0.3);
+  text-align:center;
+}
+.about-badge span { display:block; font-size:24px; font-weight:900; font-family:'Playfair Display',serif; }
+
+.about-content { padding-top: 10px; }
+.about-content p {
+  font-size:16px;
+  color:var(--muted);
+  line-height:1.85;
+  margin-bottom:22px;
+  font-weight:300;
+}
+.about-content p strong { color:var(--white); font-weight:500; }
+
+.about-stats {
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:20px;
+  margin-top:36px;
+  padding-top:36px;
+  border-top:1px solid var(--border);
+}
+.astat-num {
+  font-family:'Playfair Display',serif;
+  font-size:34px;
+  font-weight:700;
+  color:var(--white);
+  line-height:1;
+}
+.astat-num sup { font-size:18px; color:var(--gold); }
+.astat-label { font-size:12px; color:var(--muted); margin-top:4px; text-transform:uppercase; letter-spacing:0.8px; }
+
+/* ── Skills ────────────────────────────────────────── */
+.skills-wrap {
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap:12px;
+}
+.skill-pill {
+  padding:12px 16px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  font-size:13px;
+  font-weight:500;
+  color:var(--muted);
+  text-align:center;
+  transition:border-color 0.25s, color 0.25s, box-shadow 0.25s, transform 0.25s;
+  cursor:default;
+}
+.skill-pill:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  box-shadow: 0 0 18px var(--glow);
+  transform: translateY(-3px);
+}
+
+/* ── Footer / Contact ──────────────────────────────── */
+.footer {
+  padding: 80px 7% 50px;
+  border-top:1px solid var(--border);
+  max-width:1280px;
+  margin:0 auto;
+}
+
+.footer-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  margin-bottom:50px;
+  flex-wrap:wrap;
+  gap:30px;
+}
+.footer-cta h2 {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(28px, 4vw, 52px);
+  font-weight:900;
+  color:var(--white);
+  line-height:1.1;
+  margin-bottom:16px;
+}
+.footer-cta h2 em { color:var(--gold); font-style:italic; }
+.footer-cta p { font-size:16px; color:var(--muted); font-weight:300; }
+
+.footer-links {
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  align-items:flex-end;
+}
+.footer-link {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
+  font-weight:500;
+  color:var(--muted);
+  text-decoration:none;
+  transition:color 0.2s, transform 0.2s;
+}
+.footer-link svg { width:16px; height:16px; }
+.footer-link:hover { color:var(--white); transform:translateX(-4px); }
+
+.footer-bottom {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding-top:30px;
+  border-top:1px solid var(--border);
+  font-size:13px;
+  color:var(--muted);
+  flex-wrap:wrap;
+  gap:12px;
+}
+.footer-logo {
+  font-family:'Playfair Display',serif;
+  font-size:18px;
+  font-weight:700;
+  color:var(--white);
+}
+.footer-logo span { color:var(--gold); }
+
+/* ── Responsive ────────────────────────────────────── */
+@media (max-width:900px) {
+  .hero { grid-template-columns:1fr; padding-top:120px; padding-bottom:80px; }
+  .hero-right { display:none; }
+  .hero-bg-letter { display:none; }
+  .featured-project { grid-template-columns:1fr; }
+  .fp-image { min-height:220px; }
+  .about-grid { grid-template-columns:1fr; }
+  .about-image-wrap { max-width:320px; }
+  .nav-links { display:none; }
+  .footer-top { flex-direction:column; align-items:flex-start; }
+  .footer-links { align-items:flex-start; }
+  .footer-link:hover { transform:translateX(4px); }
+}
+</style>
 </head>
+
 <body>
+<div class="page-wrapper">
 
-  <!-- Arxa fon blur top-bar -->
-  <div class="topbar">
-    <button class="btn-icon" onclick="shareMe()" title="Paylaş" aria-label="Paylaş">
-      <i class="fa-solid fa-share-nodes"></i>
-    </button>
-    <button class="btn-icon" id="theme-toggle" onclick="toggleTheme()" title="Tema dəyiş" aria-label="Tema">
-      <i class="fa-solid fa-sun" id="theme-icon"></i>
-    </button>
+<!-- ── NAV ───────────────────────────────────────────── -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Ali<span>.</span></a>
+  <div class="nav-links">
+    <a href="#projects">Projects</a>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact" class="nav-cta">Let's talk</a>
+  </div>
+</nav>
+
+<!-- ── HERO ──────────────────────────────────────────── -->
+<section class="hero" id="home">
+  <div class="hero-bg-letter">A</div>
+
+  <div class="hero-left">
+    <div class="hero-eyebrow">Available for work</div>
+    <h1>I build fast,<br><em>clean</em> web<br>experiences.</h1>
+    <p>Developer focused on performance, thoughtful UX, and interfaces that leave an impression. Based in Azerbaijan.</p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn btn-gold">View Projects</a>
+      <a href="#contact" class="btn btn-ghost">Contact Me</a>
+    </div>
   </div>
 
-  <!-- Arxafon dekorativ orblər -->
-  <div class="orb orb1" aria-hidden="true"></div>
-  <div class="orb orb2" aria-hidden="true"></div>
-
-  <!-- Əsas konteyner -->
-  <div class="container">
-
-    <!-- Avatar -->
-    <div class="avatar-wrap">
-      <div class="avatar-ring">
-        <img src="profil.jpg" alt="Profil şəkli" class="avatar" onerror="this.style.display='none';document.getElementById('avatar-fallback').style.display='flex'">
-        <div class="avatar-fallback" id="avatar-fallback" style="display:none">EA</div>
+  <div class="hero-right">
+    <div class="stat-card">
+      <div class="stat-num">10<span>+</span></div>
+      <div class="stat-label">Projects shipped</div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-num">1<span>+</span></div>
+        <div class="stat-label">Years building</div>
       </div>
-      <div class="status-dot" title="Aktivdir"></div>
+      <div class="stat-card">
+        <div class="stat-num">8<span>+</span></div>
+        <div class="stat-label">Technologies</div>
+      </div>
     </div>
-
-    <!-- Ad və bio -->
-    <h1>EricIsMyHero</h1>
-    <p class="bio">𝑺𝒐𝒚 𝑨𝒍𝒊 ✦ Only u have that magic technique 🪽</p>
-
-    <!-- Kateqoriya tabları -->
-    <div class="tabs" role="tablist">
-      <button class="tab active" role="tab" aria-selected="true"  onclick="showLinks('websites', this)">Saytlar</button>
-      <button class="tab"        role="tab" aria-selected="false" onclick="showLinks('social', this)">Sosial</button>
-      <button class="tab"        role="tab" aria-selected="false" onclick="showLinks('other', this)">Digər</button>
+    <div class="stat-card">
+      <div class="stat-num" style="font-size:24px; font-family:'Outfit',sans-serif; font-weight:300; color:var(--muted); line-height:1.6;">
+        "Performance is a feature. Design is communication."
+      </div>
     </div>
+  </div>
+</section>
 
-    <!-- Linklər -->
-    <div id="links" class="links" role="list"></div>
-
-    <!-- Footer -->
-    <footer class="footer">
-      Built by <span class="accent">Ali</span> &middot; 2025
-    </footer>
-
+<!-- ── PROJECTS ───────────────────────────────────────── -->
+<div class="section reveal" id="projects">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Selected Work</h2>
+    <div class="section-line"></div>
   </div>
 
-  <!-- Toast bildirişi -->
-  <div class="toast" id="toast" aria-live="polite">🔗 Link kopyalandı!</div>
+  <!-- Featured project -->
+  <div class="featured-project reveal">
+    <div class="fp-image" style="background:linear-gradient(135deg, #0f2027, #203a43, #2c5364);">
+      <!-- Replace with: <img src="your-screenshot.jpg" alt="Project screenshot"> -->
+      🎓
+    </div>
+    <div class="fp-content">
+      <div class="fp-badge">Featured</div>
+      <h3>Unec İmtahan Materialları</h3>
+      <p>A comprehensive exam prep platform for UNEC students. Clean interface, fast load times, and mobile-first design. Organized study materials that help students prepare effectively.</p>
+      <div class="fp-tags">
+        <span class="tag">HTML</span>
+        <span class="tag">CSS</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">GitHub Pages</span>
+      </div>
+      <div class="fp-links">
+        <a href="https://ericismyhero.github.io/unecimtahanmateriallari/" target="_blank" rel="noopener" class="link-btn link-btn-filled">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Live Demo
+        </a>
+        <a href="https://github.com/EricIsMyHero" target="_blank" rel="noopener" class="link-btn link-btn-outline">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </div>
 
-  <script src="script.js"></script>
+  <!-- Project grid -->
+  <div class="projects-grid">
+
+    <div class="project-card reveal">
+      <div class="card-thumb" style="background:linear-gradient(135deg, #1a0533, #3d0068);">
+        <!-- <img src="screenshot.jpg" alt=""> -->
+        💜
+        <div class="card-thumb-overlay">
+          <a href="https://EricIsMyHero.github.io/seni-sevmeyimin-200-sebebi/" target="_blank" class="thumb-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Live
+          </a>
+          <a href="https://github.com/EricIsMyHero" target="_blank" class="thumb-link">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            Code
+          </a>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3>Səni Sevməyimin 200 Səbəbi</h3>
+        <p>A heartfelt interactive web experience. Animated reveal of 200 unique reasons, built with pure CSS transitions.</p>
+        <div class="card-tags">
+          <span class="card-tag">HTML</span><span class="card-tag">CSS</span><span class="card-tag">JS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="card-thumb" style="background:linear-gradient(135deg, #0a1628, #1e3a5f);">
+        🎵
+        <div class="card-thumb-overlay">
+          <a href="https://EricIsMyHero.github.io/mahni-paylashma/" target="_blank" class="thumb-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Live
+          </a>
+          <a href="https://github.com/EricIsMyHero" target="_blank" class="thumb-link">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            Code
+          </a>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3>Mahnı Paylaşma</h3>
+        <p>Music sharing platform with a clean, minimal UI. Share songs with friends through a simple, fast interface.</p>
+        <div class="card-tags">
+          <span class="card-tag">HTML</span><span class="card-tag">CSS</span><span class="card-tag">JavaScript</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="card-thumb" style="background:linear-gradient(135deg, #0d2137, #1a4a6b);">
+        🎮
+        <div class="card-thumb-overlay">
+          <a href="https://EricIsMyHero.github.io/ali-oyun/" target="_blank" class="thumb-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Live
+          </a>
+          <a href="https://github.com/EricIsMyHero" target="_blank" class="thumb-link">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            Code
+          </a>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3>Əlinin Oyunları</h3>
+        <p>A collection of browser-based mini games. Pure JavaScript, no libraries — just fast, fun, interactive experiences.</p>
+        <div class="card-tags">
+          <span class="card-tag">JavaScript</span><span class="card-tag">Canvas</span><span class="card-tag">CSS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="card-thumb" style="background:linear-gradient(135deg, #1a0a0a, #4a1010);">
+        ❤️
+        <div class="card-thumb-overlay">
+          <a href="https://ericismyhero.github.io/eshq-olcher/" target="_blank" class="thumb-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Live
+          </a>
+          <a href="https://github.com/EricIsMyHero" target="_blank" class="thumb-link">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            Code
+          </a>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3>Eşq Ölçər</h3>
+        <p>A fun, interactive love calculator with animated results. Playful UX with smooth transitions and sharing features.</p>
+        <div class="card-tags">
+          <span class="card-tag">HTML</span><span class="card-tag">CSS</span><span class="card-tag">JS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="card-thumb" style="background:linear-gradient(135deg, #0a1a0f, #1a4a2a);">
+        🌿
+        <div class="card-thumb-overlay">
+          <a href="https://ericismyhero.github.io/bir-shans-daha-/" target="_blank" class="thumb-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Live
+          </a>
+          <a href="https://github.com/EricIsMyHero" target="_blank" class="thumb-link">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            Code
+          </a>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3>Bir Şans Daha?</h3>
+        <p>An emotionally-driven interactive web experience. Delicate animations, personal storytelling through code.</p>
+        <div class="card-tags">
+          <span class="card-tag">HTML</span><span class="card-tag">CSS Animations</span><span class="card-tag">JS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="card-thumb" style="background:linear-gradient(135deg, #1a1000, #4a3200);">
+        ☀️
+        <div class="card-thumb-overlay">
+          <a href="https://ericismyhero.github.io/her-g-n-1-iltifat/" target="_blank" class="thumb-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Live
+          </a>
+          <a href="https://github.com/EricIsMyHero" target="_blank" class="thumb-link">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            Code
+          </a>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3>Hər Gün 1 İltifat</h3>
+        <p>Daily compliment generator — a small app that brightens someone's day with a thoughtful, rotating message each visit.</p>
+        <div class="card-tags">
+          <span class="card-tag">JavaScript</span><span class="card-tag">CSS</span><span class="card-tag">LocalStorage</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── ABOUT ──────────────────────────────────────────── -->
+<div class="section reveal" id="about">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">About Me</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-image-wrap reveal">
+      <div class="about-image-frame">
+        <!-- Replace with: <img src="your-photo.jpg" alt="Ali"> -->
+        👤
+      </div>
+      <div class="about-badge">
+        <span>1+</span>
+        Year of building
+      </div>
+    </div>
+
+    <div class="about-content reveal">
+      <p>I'm <strong>Ali</strong> — a self-taught web developer from Azerbaijan with a genuine obsession for building things that look good and work even better.</p>
+      <p>I started with curiosity and a browser. No bootcamp, no shortcuts. Just breaking things, reading docs at 2am, and shipping projects until the code started making sense. Every project on here taught me something I couldn't learn from a tutorial.</p>
+      <p>My focus is on <strong>clean interfaces</strong>, real performance, and writing code that doesn't make future-me cry. I care about the details — the ones users never notice but always feel.</p>
+
+      <div class="about-stats">
+        <div>
+          <div class="astat-num">10<sup>+</sup></div>
+          <div class="astat-label">Projects</div>
+        </div>
+        <div>
+          <div class="astat-num">8<sup>+</sup></div>
+          <div class="astat-label">Technologies</div>
+        </div>
+        <div>
+          <div class="astat-num">∞</div>
+          <div class="astat-label">Coffee cups</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SKILLS ─────────────────────────────────────────── -->
+<div class="section reveal" id="skills">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Skills & Tools</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="skills-wrap">
+    <div class="skill-pill">HTML5</div>
+    <div class="skill-pill">CSS3</div>
+    <div class="skill-pill">JavaScript</div>
+    <div class="skill-pill">Git</div>
+    <div class="skill-pill">GitHub</div>
+    <div class="skill-pill">GitHub Pages</div>
+    <div class="skill-pill">Responsive Design</div>
+    <div class="skill-pill">CSS Animations</div>
+    <div class="skill-pill">Figma</div>
+    <div class="skill-pill">VS Code</div>
+    <div class="skill-pill">JSON / APIs</div>
+    <div class="skill-pill">Performance</div>
+  </div>
+</div>
+
+<!-- ── FOOTER / CONTACT ───────────────────────────────── -->
+<footer class="footer reveal" id="contact">
+  <div class="footer-top">
+    <div class="footer-cta">
+      <h2>Have an idea?<br>Let's <em>build</em> it.</h2>
+      <p>Open to freelance, collaboration, or just a good conversation.</p>
+    </div>
+    <div class="footer-links">
+      <a href="mailto:ericismyhero2467@gmail.com" class="footer-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+        ericismyhero2467@gmail.com
+      </a>
+      <a href="https://github.com/EricIsMyHero" target="_blank" rel="noopener" class="footer-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        github.com/EricIsMyHero
+      </a>
+      <a href="https://www.youtube.com/@ericismyhero" target="_blank" rel="noopener" class="footer-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        YouTube — @ericismyhero
+      </a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-logo">Ali<span>.</span></div>
+    <div>Designed & built by Ali · 2025</div>
+    <div style="display:flex;gap:18px;">
+      <a href="https://www.instagram.com/the.real.ali77" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='#f0ebe0'" onmouseout="this.style.color=''">Instagram</a>
+      <a href="https://x.com/EricIsMyHero_0" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='#f0ebe0'" onmouseout="this.style.color=''">X (Twitter)</a>
+      <a href="https://discord.gg/62wNrV79HR" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='#f0ebe0'" onmouseout="this.style.color=''">Discord</a>
+    </div>
+  </div>
+</footer>
+
+</div><!-- /.page-wrapper -->
+
+<script>
+// Navbar scroll effect
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+// Scroll reveal via IntersectionObserver
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      // Stagger siblings
+      const siblings = [...entry.target.parentElement.querySelectorAll('.reveal:not(.visible)')];
+      const delay = siblings.indexOf(entry.target) * 80;
+      setTimeout(() => entry.target.classList.add('visible'), delay);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+reveals.forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
