@@ -1,32 +1,67 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mənim Linklərim</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EricIsMyHero — Ali</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
-    <div class="share-button">
-        <button onclick="shareSite()">💌 Paylaş</button>
-        <button id="theme-toggle" onclick="toggleTheme()">☀️</button>
+
+  <!-- Arxa fon blur top-bar -->
+  <div class="topbar">
+    <button class="btn-icon" onclick="shareMe()" title="Paylaş" aria-label="Paylaş">
+      <i class="fa-solid fa-share-nodes"></i>
+    </button>
+    <button class="btn-icon" id="theme-toggle" onclick="toggleTheme()" title="Tema dəyiş" aria-label="Tema">
+      <i class="fa-solid fa-sun" id="theme-icon"></i>
+    </button>
+  </div>
+
+  <!-- Arxafon dekorativ orblər -->
+  <div class="orb orb1" aria-hidden="true"></div>
+  <div class="orb orb2" aria-hidden="true"></div>
+
+  <!-- Əsas konteyner -->
+  <div class="container">
+
+    <!-- Avatar -->
+    <div class="avatar-wrap">
+      <div class="avatar-ring">
+        <img src="profil.jpg" alt="Profil şəkli" class="avatar" onerror="this.style.display='none';document.getElementById('avatar-fallback').style.display='flex'">
+        <div class="avatar-fallback" id="avatar-fallback" style="display:none">EA</div>
+      </div>
+      <div class="status-dot" title="Aktivdir"></div>
     </div>
 
-    <div class="container">
-        <img src="profil.jpg" alt="Profil şəkli" class="avatar">
-        <h1>EricIsMyHero</h1>
-        <p class="bio"> 𝑺𝒐𝒚 𝑨𝒍𝒊 ツ | 𝑶𝒏𝒍𝒚 𝒖 𝒉𝒂𝒗𝒆 𝒕𝒉𝒂𝒕 𝒎𝒂𝒈𝒊𝒄 𝒕𝒆𝒄𝒉𝒏𝒊𝒒𝒖𝒆🪽</p>
+    <!-- Ad və bio -->
+    <h1>EricIsMyHero</h1>
+    <p class="bio">𝑺𝒐𝒚 𝑨𝒍𝒊 ✦ Only u have that magic technique 🪽</p>
 
-        <div class="categories">
-            <button class="category-button active" onclick="showLinks('websites')">Saytlar</button>
-            <button class="category-button" onclick="showLinks('social')">Sosial Şəbəkələr</button>
-            <button class="category-button" onclick="showLinks('other')">Digər</button>
-        </div>
-
-        <div id="links" class="links"></div>
+    <!-- Kateqoriya tabları -->
+    <div class="tabs" role="tablist">
+      <button class="tab active" role="tab" aria-selected="true"  onclick="showLinks('websites', this)">Saytlar</button>
+      <button class="tab"        role="tab" aria-selected="false" onclick="showLinks('social', this)">Sosial</button>
+      <button class="tab"        role="tab" aria-selected="false" onclick="showLinks('other', this)">Digər</button>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Linklər -->
+    <div id="links" class="links" role="list"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      Built by <span class="accent">Ali</span> &middot; 2025
+    </footer>
+
+  </div>
+
+  <!-- Toast bildirişi -->
+  <div class="toast" id="toast" aria-live="polite">🔗 Link kopyalandı!</div>
+
+  <script src="script.js"></script>
 </body>
 </html>
