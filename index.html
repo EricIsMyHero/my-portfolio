@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ali — Web Developer</title>
+<title>Ali — Builder & Creator</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -197,8 +197,18 @@ nav.scrolled {
   color: var(--muted);
   max-width: 420px;
   line-height: 1.75;
-  margin-bottom: 38px;
+  margin-bottom: 14px;
   font-weight: 300;
+}
+
+/* ── NEW: "no clients" note ───────────────────────── */
+.hero-note {
+  font-size: 13px;
+  color: #3a3a3a;
+  font-style: italic;
+  margin-bottom: 36px;
+  font-weight: 400;
+  letter-spacing: 0.2px;
 }
 
 .hero-btns { display:flex; gap:14px; flex-wrap:wrap; }
@@ -694,7 +704,7 @@ nav.scrolled {
     <a href="#projects">Projects</a>
     <a href="#about">About</a>
     <a href="#skills">Skills</a>
-    <a href="#contact" class="nav-cta">Let's talk</a>
+    <a href="#contact" class="nav-cta">Say Hello</a>
   </div>
 </nav>
 
@@ -703,12 +713,22 @@ nav.scrolled {
   <div class="hero-bg-letter">A</div>
 
   <div class="hero-left">
-    <div class="hero-eyebrow">Available for work</div>
-    <h1>I build fast,<br><em>clean</em> web<br>experiences.</h1>
-    <p>Developer focused on performance, thoughtful UX, and interfaces that leave an impression. Based in Azerbaijan.</p>
+    <!-- CHANGED: "Available for work" → creator eyebrow -->
+    <div class="hero-eyebrow">Personal projects & experiments</div>
+
+    <!-- CHANGED: heading -->
+    <h1>I build ideas<br><em>for fun</em><br>and share them.</h1>
+
+    <!-- CHANGED: description -->
+    <p>This is my space to publish projects, test ideas, and share what I learn along the way. If something here catches your attention, feel free to reach out.</p>
+
+    <!-- CHANGED: "no clients" note — the key differentiator -->
+    <p class="hero-note">No clients. No pressure. Just projects I wanted to build.</p>
+
+    <!-- CHANGED: CTAs -->
     <div class="hero-btns">
-      <a href="#projects" class="btn btn-gold">View Projects</a>
-      <a href="#contact" class="btn btn-ghost">Contact Me</a>
+      <a href="#projects" class="btn btn-gold">Explore Projects</a>
+      <a href="#contact" class="btn btn-ghost">Say Hello</a>
     </div>
   </div>
 
@@ -729,7 +749,7 @@ nav.scrolled {
     </div>
     <div class="stat-card">
       <div class="stat-num" style="font-size:24px; font-family:'Outfit',sans-serif; font-weight:300; color:var(--muted); line-height:1.6;">
-        "Performance is a feature. Design is communication."
+        "Build it. Ship it. Learn from it."
       </div>
     </div>
   </div>
@@ -739,14 +759,14 @@ nav.scrolled {
 <div class="section reveal" id="projects">
   <div class="section-header">
     <span class="section-num">01</span>
-    <h2 class="section-title">Selected Work</h2>
+    <!-- CHANGED: "Selected Work" → "Things I Built" -->
+    <h2 class="section-title">Things I Built</h2>
     <div class="section-line"></div>
   </div>
 
   <!-- Featured project -->
   <div class="featured-project reveal">
     <div class="fp-image" style="background:linear-gradient(135deg, #0f2027, #203a43, #2c5364);">
-      <!-- Replace with: <img src="your-screenshot.jpg" alt="Project screenshot"> -->
       🎓
     </div>
     <div class="fp-content">
@@ -777,7 +797,6 @@ nav.scrolled {
 
     <div class="project-card reveal">
       <div class="card-thumb" style="background:linear-gradient(135deg, #1a0533, #3d0068);">
-        <!-- <img src="screenshot.jpg" alt=""> -->
         💜
         <div class="card-thumb-overlay">
           <a href="https://EricIsMyHero.github.io/seni-sevmeyimin-200-sebebi/" target="_blank" class="thumb-link">
@@ -854,7 +873,7 @@ nav.scrolled {
             Live
           </a>
           <a href="https://github.com/EricIsMyHero" target="_blank" class="thumb-link">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 09.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
             Code
           </a>
         </div>
@@ -877,7 +896,7 @@ nav.scrolled {
             Live
           </a>
           <a href="https://github.com/EricIsMyHero" target="_blank" class="thumb-link">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
             Code
           </a>
         </div>
@@ -951,7 +970,6 @@ nav.scrolled {
   <div class="about-grid">
     <div class="about-image-wrap reveal">
       <div class="about-image-frame">
-        <!-- Replace with: <img src="your-photo.jpg" alt="Ali"> -->
         👤
       </div>
       <div class="about-badge">
@@ -960,10 +978,11 @@ nav.scrolled {
       </div>
     </div>
 
+    <!-- CHANGED: about text → creator voice -->
     <div class="about-content reveal">
-      <p>I'm <strong>Ali</strong> — a self-taught web developer from Azerbaijan with a genuine obsession for building things that look good and work even better.</p>
-      <p>I started with curiosity and a browser. No bootcamp, no shortcuts. Just breaking things, reading docs at 2am, and shipping projects until the code started making sense. Every project on here taught me something I couldn't learn from a tutorial.</p>
-      <p>My focus is on <strong>clean interfaces</strong>, real performance, and writing code that doesn't make future-me cry. I care about the details — the ones users never notice but always feel.</p>
+      <p>I'm <strong>Ali</strong> — I build small web projects, experiments, and ideas that come to my mind. This site is a collection of things I've created and learned from.</p>
+      <p>I don't focus on perfection. I focus on trying, building, and improving with each project. Every page here represents something I explored, broke, fixed, and eventually shipped.</p>
+      <p>If you enjoy these kinds of projects or want to talk about ideas, <strong>feel free to reach out</strong>. I'm always happy to connect with people who like building things.</p>
 
       <div class="about-stats">
         <div>
@@ -1010,9 +1029,10 @@ nav.scrolled {
 <!-- ── FOOTER / CONTACT ───────────────────────────────── -->
 <footer class="footer reveal" id="contact">
   <div class="footer-top">
+    <!-- CHANGED: footer CTA → connection-focused, not job-focused -->
     <div class="footer-cta">
-      <h2>Have an idea?<br>Let's <em>build</em> it.</h2>
-      <p>Open to freelance, collaboration, or just a good conversation.</p>
+      <h2>Liked something?<br>Let's <em>talk</em>.</h2>
+      <p>I enjoy sharing ideas, building small projects, and connecting with people who like to create.</p>
     </div>
     <div class="footer-links">
       <a href="mailto:ericismyhero2467@gmail.com" class="footer-link">
@@ -1055,7 +1075,6 @@ const reveals = document.querySelectorAll('.reveal');
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry, i) => {
     if (entry.isIntersecting) {
-      // Stagger siblings
       const siblings = [...entry.target.parentElement.querySelectorAll('.reveal:not(.visible)')];
       const delay = siblings.indexOf(entry.target) * 80;
       setTimeout(() => entry.target.classList.add('visible'), delay);
