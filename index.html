@@ -691,6 +691,187 @@ nav.scrolled {
   .footer-links { align-items:flex-start; }
   .footer-link:hover { transform:translateX(4px); }
 }
+
+/* ── Blog / Learnings ──────────────────────────────── */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.blog-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 28px 26px;
+  transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), border-color 0.3s, box-shadow 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.blog-card::before {
+  content:'';
+  position:absolute;
+  top:0; left:0; right:0;
+  height:2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity:0;
+  transition: opacity 0.3s;
+}
+.blog-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(201,168,76,0.2);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+}
+.blog-card:hover::before { opacity:1; }
+
+.blog-date {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.blog-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+.blog-card p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 18px;
+  font-weight: 300;
+}
+
+.blog-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gold);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+.blog-link::after {
+  content: '';
+  position: absolute;
+  width: 0; height: 1px;
+  background: var(--gold);
+  left: 0; bottom: -2px;
+  transition: width 0.3s;
+}
+.blog-link:hover::after { width: 100%; }
+.blog-link-arrow { transition: transform 0.2s; }
+.blog-link:hover .blog-link-arrow { transform: translateX(4px); }
+
+/* ── Project Story Modal ───────────────────────────── */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+.modal.open { display: flex; }
+
+@keyframes modalIn {
+  from { opacity:0; transform:scale(0.94) translateY(16px); }
+  to   { opacity:1; transform:scale(1) translateY(0); }
+}
+
+.modal-content {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  padding: 40px;
+  max-width: 580px;
+  width: 100%;
+  position: relative;
+  animation: modalIn 0.3s cubic-bezier(.34,1.56,.64,1) both;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+}
+
+.modal-close {
+  position: absolute;
+  top: 18px; right: 20px;
+  font-size: 22px;
+  color: var(--muted);
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s, transform 0.2s;
+  background: none; border: none;
+}
+.modal-close:hover { color: var(--white); transform: rotate(90deg); }
+
+.modal-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+
+.modal-content h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+
+.modal-block {
+  margin-bottom: 20px;
+  padding-left: 14px;
+  border-left: 2px solid rgba(201,168,76,0.3);
+}
+.modal-block h4 {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.modal-block p {
+  font-size: 14px;
+  color: #888;
+  line-height: 1.75;
+  font-weight: 300;
+}
+
+/* Story hint on card */
+.card-story-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: rgba(201,168,76,0.55);
+  transition: color 0.2s;
+}
+.project-card:hover .card-story-hint { color: var(--gold); }
+.card-story-hint svg { width: 10px; height: 10px; }
 </style>
 </head>
 
@@ -702,6 +883,7 @@ nav.scrolled {
   <a href="#" class="nav-logo">Ali<span>.</span></a>
   <div class="nav-links">
     <a href="#projects">Projects</a>
+    <a href="#blog">Learnings</a>
     <a href="#about">About</a>
     <a href="#skills">Skills</a>
     <a href="#contact" class="nav-cta">Say Hello</a>
@@ -795,7 +977,11 @@ nav.scrolled {
   <!-- Project grid -->
   <div class="projects-grid">
 
-    <div class="project-card reveal">
+    <div class="project-card reveal"
+         data-title="Səni Sevməyimin 200 Səbəbi"
+         data-tried="I wanted to build something emotional instead of just technical. Most web projects feel cold — I wanted to create something warm and personal."
+         data-built="Pure CSS animations with staggered reveals. No libraries, no frameworks. Just HTML, CSS, and a bit of JS to control the reveal sequence."
+         data-result="People spent much longer on this page than any other project. Emotion drives engagement more than features do.">
       <div class="card-thumb" style="background:linear-gradient(135deg, #1a0533, #3d0068);">
         💜
         <div class="card-thumb-overlay">
@@ -815,10 +1001,15 @@ nav.scrolled {
         <div class="card-tags">
           <span class="card-tag">HTML</span><span class="card-tag">CSS</span><span class="card-tag">JS</span>
         </div>
+        <div class="card-story-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Click to read the story</div>
       </div>
     </div>
 
-    <div class="project-card reveal">
+    <div class="project-card reveal"
+         data-title="Mahnı Paylaşma"
+         data-tried="I wanted a simple way to share songs with friends — not a full Spotify clone, just a lightweight page for sending music you love."
+         data-built="Clean HTML/CSS/JS with no backend. Music links are embedded directly. Focused on speed and a minimal UI that gets out of the way."
+         data-result="Simplicity is a design decision. Removing features can be harder than adding them — and often more effective.">
       <div class="card-thumb" style="background:linear-gradient(135deg, #0a1628, #1e3a5f);">
         🎵
         <div class="card-thumb-overlay">
@@ -838,10 +1029,15 @@ nav.scrolled {
         <div class="card-tags">
           <span class="card-tag">HTML</span><span class="card-tag">CSS</span><span class="card-tag">JavaScript</span>
         </div>
+        <div class="card-story-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Click to read the story</div>
       </div>
     </div>
 
-    <div class="project-card reveal">
+    <div class="project-card reveal"
+         data-title="Əlinin Oyunları"
+         data-tried="I wanted to understand how games actually work under the hood — collision detection, game loops, score systems — without relying on any game library."
+         data-built="Pure JavaScript with Canvas API. Each mini game was built from scratch. The game loop pattern was the biggest challenge to figure out correctly."
+         data-result="Building without libraries forces you to understand fundamentals. I now know exactly what those libraries are doing behind the scenes.">
       <div class="card-thumb" style="background:linear-gradient(135deg, #0d2137, #1a4a6b);">
         🎮
         <div class="card-thumb-overlay">
@@ -861,10 +1057,15 @@ nav.scrolled {
         <div class="card-tags">
           <span class="card-tag">JavaScript</span><span class="card-tag">Canvas</span><span class="card-tag">CSS</span>
         </div>
+        <div class="card-story-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Click to read the story</div>
       </div>
     </div>
 
-    <div class="project-card reveal">
+    <div class="project-card reveal"
+         data-title="Eşq Ölçər"
+         data-tried="I wanted to build something playful — not every project needs to be serious. A love calculator felt like a fun way to experiment with UI animations and sharing mechanics."
+         data-built="The 'calculation' is intentionally random but animated to feel meaningful. Sharing was added last and turned out to be the most-used feature."
+         data-result="Users share fun things. Adding a share button doubled engagement. Never underestimate social mechanics, even in small projects.">
       <div class="card-thumb" style="background:linear-gradient(135deg, #1a0a0a, #4a1010);">
         ❤️
         <div class="card-thumb-overlay">
@@ -884,10 +1085,15 @@ nav.scrolled {
         <div class="card-tags">
           <span class="card-tag">HTML</span><span class="card-tag">CSS</span><span class="card-tag">JS</span>
         </div>
+        <div class="card-story-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Click to read the story</div>
       </div>
     </div>
 
-    <div class="project-card reveal">
+    <div class="project-card reveal"
+         data-title="Bir Şans Daha?"
+         data-tried="I wanted to explore storytelling through code — can a webpage make someone feel something? This was my experiment with using web as an emotional medium."
+         data-built="CSS keyframe animations timed to tell a narrative. The pacing was everything — I iterated on animation delays for hours to get the emotional timing right."
+         data-result="Code can carry emotion. Timing and restraint matter more than flashy effects. Sometimes the simplest interaction — a fade, a pause — hits hardest.">
       <div class="card-thumb" style="background:linear-gradient(135deg, #0a1a0f, #1a4a2a);">
         🌿
         <div class="card-thumb-overlay">
@@ -907,10 +1113,15 @@ nav.scrolled {
         <div class="card-tags">
           <span class="card-tag">HTML</span><span class="card-tag">CSS Animations</span><span class="card-tag">JS</span>
         </div>
+        <div class="card-story-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Click to read the story</div>
       </div>
     </div>
 
-    <div class="project-card reveal">
+    <div class="project-card reveal"
+         data-title="Hər Gün 1 İltifat"
+         data-tried="Small things change your day. I wanted to build something that consistently delivers a tiny moment of positivity — one compliment per visit, no more."
+         data-built="LocalStorage tracks the last visit date. If it's a new day, a new compliment rotates in. The constraint of one-per-day was intentional — scarcity makes it feel more special."
+         data-result="Constraints are creative tools. Limiting to one compliment per day made people come back. The best features are sometimes the ones you don't build.">
       <div class="card-thumb" style="background:linear-gradient(135deg, #1a1000, #4a3200);">
         ☀️
         <div class="card-thumb-overlay">
@@ -930,10 +1141,15 @@ nav.scrolled {
         <div class="card-tags">
           <span class="card-tag">JavaScript</span><span class="card-tag">CSS</span><span class="card-tag">LocalStorage</span>
         </div>
+        <div class="card-story-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Click to read the story</div>
       </div>
     </div>
 
-    <div class="project-card reveal">
+    <div class="project-card reveal"
+         data-title="Clash-A-Mana"
+         data-tried="I wanted to explore character design through code — creating personalities and stats for fictional characters without any game engine."
+         data-built="Pure HTML/CSS/JS. Each character has defined attributes in a JS object. The 'clash' logic compares stats with some randomness added to keep it interesting."
+         data-result="Data structures can create personality. Designing the character objects taught me more about object-oriented thinking than any tutorial.">
       <div class="card-thumb" style="background:linear-gradient(135deg, #0d2137, #1a4a6b);">
         🎮
         <div class="card-thumb-overlay">
@@ -953,7 +1169,42 @@ nav.scrolled {
         <div class="card-tags">
           <span class="card-tag">HTML</span><span class="card-tag">JavaScript</span><span class="card-tag">CSS</span>
         </div>
+        <div class="card-story-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Click to read the story</div>
       </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── BLOG / LEARNINGS ───────────────────────────────── -->
+<div class="section reveal" id="blog">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Learnings</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="blog-grid">
+
+    <div class="blog-card reveal">
+      <div class="blog-date">April 2026</div>
+      <h3>Why I stopped chasing perfect code</h3>
+      <p>Shipped code beats perfect code every time. I used to rewrite things 3 times before publishing — now I ship first and improve later.</p>
+      <a href="#" class="blog-link">Read more <span class="blog-link-arrow">→</span></a>
+    </div>
+
+    <div class="blog-card reveal">
+      <div class="blog-date">March 2026</div>
+      <h3>What I learned from building small projects</h3>
+      <p>Small projects teach more than tutorials. You hit real walls, figure out real solutions, and actually remember what you learned.</p>
+      <a href="#" class="blog-link">Read more <span class="blog-link-arrow">→</span></a>
+    </div>
+
+    <div class="blog-card reveal">
+      <div class="blog-date">February 2026</div>
+      <h3>Emotion is a feature, not a detail</h3>
+      <p>The projects people share and come back to aren't always the most technically impressive. They're the ones that made them feel something.</p>
+      <a href="#" class="blog-link">Read more <span class="blog-link-arrow">→</span></a>
     </div>
 
   </div>
@@ -962,7 +1213,7 @@ nav.scrolled {
 <!-- ── ABOUT ──────────────────────────────────────────── -->
 <div class="section reveal" id="about">
   <div class="section-header">
-    <span class="section-num">02</span>
+    <span class="section-num">03</span>
     <h2 class="section-title">About Me</h2>
     <div class="section-line"></div>
   </div>
@@ -1005,7 +1256,7 @@ nav.scrolled {
 <!-- ── SKILLS ─────────────────────────────────────────── -->
 <div class="section reveal" id="skills">
   <div class="section-header">
-    <span class="section-num">03</span>
+    <span class="section-num">04</span>
     <h2 class="section-title">Skills & Tools</h2>
     <div class="section-line"></div>
   </div>
@@ -1063,6 +1314,27 @@ nav.scrolled {
 
 </div><!-- /.page-wrapper -->
 
+<!-- ── PROJECT STORY MODAL ───────────────────────────── -->
+<div id="projectModal" class="modal" role="dialog" aria-modal="true">
+  <div class="modal-content">
+    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+    <div class="modal-badge">Project Story</div>
+    <h2 id="modalTitle"></h2>
+    <div class="modal-block">
+      <h4>What I tried</h4>
+      <p id="modalTried"></p>
+    </div>
+    <div class="modal-block">
+      <h4>How I built it</h4>
+      <p id="modalBuilt"></p>
+    </div>
+    <div class="modal-block">
+      <h4>What I learned</h4>
+      <p id="modalResult"></p>
+    </div>
+  </div>
+</div>
+
 <script>
 // Navbar scroll effect
 const navbar = document.getElementById('navbar');
@@ -1082,8 +1354,43 @@ const observer = new IntersectionObserver((entries) => {
     }
   });
 }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
 reveals.forEach(el => observer.observe(el));
+
+// Project Story Modal
+const modal = document.getElementById('projectModal');
+const modalClose = document.getElementById('modalClose');
+const modalTitle = document.getElementById('modalTitle');
+const modalTried = document.getElementById('modalTried');
+const modalBuilt = document.getElementById('modalBuilt');
+const modalResult = document.getElementById('modalResult');
+
+function openModal(card) {
+  if (!card.dataset.title) return;
+  modalTitle.textContent = card.dataset.title;
+  modalTried.textContent = card.dataset.tried;
+  modalBuilt.textContent = card.dataset.built;
+  modalResult.textContent = card.dataset.result;
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.querySelectorAll('.project-card[data-title]').forEach(card => {
+  card.addEventListener('click', (e) => {
+    // Don't open modal if user clicked a link inside the card
+    if (e.target.closest('a')) return;
+    openModal(card);
+  });
+  card.style.cursor = 'pointer';
+});
+
+modalClose.addEventListener('click', closeModal);
+modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 </script>
 </body>
 </html>
