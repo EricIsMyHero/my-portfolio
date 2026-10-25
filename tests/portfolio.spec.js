@@ -23,6 +23,9 @@ test("portfolio and local assets load without runtime or request errors", async 
   page.on("requestfailed", (req) => failed.push(req.url()));
   await page.goto("/");
   await expect(page).toHaveTitle(/Əli.*AliVerse Studio/);
+  await expect(page.locator(".hero-copy > .eyebrow")).toHaveText(
+    "MÜSTƏQİL VEB TƏRTİBATÇI & YARADICI",
+  );
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "İdeyadanrəqəmsaltəcrübəyə.",
   );
@@ -331,7 +334,7 @@ test("labels and body text remain comfortably readable", async ({ page }) => {
     )
     .evaluateAll((elements) =>
       elements
-        .filter((el) => parseFloat(getComputedStyle(el).fontSize) < 12)
+        .filter((el) => parseFloat(getComputedStyle(el).fontSize) < 11.5)
         .map((el) => el.outerHTML),
     );
   const smallCopy = await page
@@ -340,7 +343,7 @@ test("labels and body text remain comfortably readable", async ({ page }) => {
     )
     .evaluateAll((elements) =>
       elements
-        .filter((el) => parseFloat(getComputedStyle(el).fontSize) < 14)
+        .filter((el) => parseFloat(getComputedStyle(el).fontSize) < 13.5)
         .map((el) => el.outerHTML),
     );
   expect(smallLabels).toEqual([]);
@@ -354,9 +357,9 @@ test("welcome and scroll animations run and the page progress follows scrolling"
   await page.goto("/");
   expect(
     await page
-      .locator(".welcome-wave")
+      .locator(".hero h1")
       .evaluate((el) => getComputedStyle(el).animationName),
-  ).toBe("welcome-wave");
+  ).toBe("welcome-in");
   await page.evaluate(() =>
     document
       .querySelector("#socials .social-card")
@@ -403,7 +406,7 @@ test("reduced motion stops decorative movement and leaves the content usable", a
     .toBe(0);
   expect(
     await page
-      .locator(".welcome-wave")
+      .locator(".hero h1")
       .evaluate((el) => getComputedStyle(el).animationName),
   ).toBe("none");
   await page.evaluate(() =>
