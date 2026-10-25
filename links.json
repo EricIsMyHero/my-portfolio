@@ -10,6 +10,11 @@
       "icon": "fas fa-blog"
     },
     {
+      "title": "Clash-A-Mana",
+      "url": "https://ericismyhero.github.io/oyun/",
+      "icon": "fas fa-dice"
+    },
+    {
       "title": "K.A.D.R — Şəxsi video arxivi",
       "url": "https://ericismyhero.github.io/k.a.d.r/",
       "icon": "fas fa-film"
@@ -48,48 +53,80 @@
       "title": "Eşq Ölçər",
       "url": "https://EricIsMyHero.github.io/eshq-olcher/",
       "icon": "fa-solid fa-face-grin-hearts"
-    },
-    {
-      "title": "Clash-A-Mana",
-      "url": "https://ericismyhero.github.io/oyun/",
-      "icon": "fas fa-dice"
     }
   ],
   "social": [
     {
-      "title": "YouTube",
-      "url": "https://www.youtube.com/@ericismyhero",
-      "icon": "fab fa-youtube"
+      "title": "TikTok",
+      "url": "https://tiktok.com/@ericismyhero_",
+      "icon": "fab fa-tiktok",
+      "logo": "assets/social/tiktok.svg"
     },
     {
-      "title": "TikTok",
-      "url": "https://www.tiktok.com/@ericismyhero_",
-      "icon": "fab fa-tiktok"
+      "title": "Facebook",
+      "url": "https://www.facebook.com/mr.aliprofilepicture",
+      "icon": "fab fa-facebook",
+      "logo": "assets/social/facebook.svg"
     },
     {
       "title": "Instagram",
-      "url": "https://www.instagram.com/the.real.ali77",
-      "icon": "fab fa-instagram"
-    },
-    {
-      "title": "Threads",
-      "url": "https://www.threads.com/@the.real.ali77",
-      "icon": "fab fa-threads"
-    },
-    {
-      "title": "X (Twitter)",
-      "url": "https://x.com/EricIsMyHero_0",
-      "icon": "fab fa-x-twitter"
-    },
-    {
-      "title": "Reddit",
-      "url": "https://www.reddit.com/u/EricIsMyHero",
-      "icon": "fab fa-reddit"
+      "url": "https://www.instagram.com/the.real.ali77/",
+      "icon": "fab fa-instagram",
+      "logo": "assets/social/instagram.svg"
     },
     {
       "title": "GitHub",
       "url": "https://github.com/EricIsMyHero",
-      "icon": "fab fa-github"
+      "icon": "fab fa-github",
+      "logo": "assets/social/github.svg"
+    },
+    {
+      "title": "Spotify",
+      "url": "https://open.spotify.com/user/r54xg6cy20z3k1xuif2lrjmu7",
+      "icon": "fab fa-spotify",
+      "logo": "assets/social/spotify.svg"
+    },
+    {
+      "title": "Telegram",
+      "url": "https://t.me/EricIsMyHero",
+      "icon": "fab fa-telegram",
+      "logo": "assets/social/telegram.svg"
+    },
+    {
+      "title": "YouTube",
+      "url": "https://www.youtube.com/@ericismyhero",
+      "icon": "fab fa-youtube",
+      "logo": "assets/social/youtube.svg"
+    },
+    {
+      "title": "Threads",
+      "url": "https://www.threads.com/@the.real.ali77",
+      "icon": "fab fa-threads",
+      "logo": "assets/social/threads.svg"
+    },
+    {
+      "title": "X (Twitter)",
+      "url": "https://x.com/EricIsMyHero_0",
+      "icon": "fab fa-x-twitter",
+      "logo": "assets/social/x.svg"
+    },
+    {
+      "title": "Reddit",
+      "url": "https://www.reddit.com/u/EricIsMyHero",
+      "icon": "fab fa-reddit",
+      "logo": "assets/social/reddit.svg"
+    },
+    {
+      "title": "Discord",
+      "url": "https://discord.gg/62wNrV79HR",
+      "icon": "fab fa-discord",
+      "logo": "assets/social/discord.svg"
+    },
+    {
+      "title": "Pinterest",
+      "url": "https://pin.it/3G3vV67cB",
+      "icon": "fab fa-pinterest",
+      "logo": "assets/social/pinterest.svg"
     }
   ],
   "other": [
@@ -97,21 +134,6 @@
       "title": "Təklif və İradlarınız üçün",
       "url": "mailto:ericismyhero2467@gmail.com",
       "icon": "fas fa-envelope"
-    },
-    {
-      "title": "Discord Sunucu",
-      "url": "https://discord.gg/62wNrV79HR",
-      "icon": "fab fa-discord"
-    },
-    {
-      "title": "Spotify",
-      "url": "https://open.spotify.com/user/r54xg6cy20z3k1xuif2lrjmu7",
-      "icon": "fab fa-spotify"
-    },
-    {
-      "title": "Pinterest",
-      "url": "https://pin.it/3G3vV67cB",
-      "icon": "fab fa-pinterest"
     }
   ]
 }

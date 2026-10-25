@@ -34,7 +34,7 @@ const projectDetails = {
   },
   kadr: {
     title: "K.A.D.R",
-    category: "02 / MEDİA İNTERFEYSİ",
+    category: "03 / MEDİA İNTERFEYSİ",
     intro:
       "“Sənin kadrın. Sənin dünyan.” Şəxsi video kolleksiyasını gəzmək, axtarmaq və yenidən izləmək üçün Azərbaycan dilində hazırlanmış media interfeysi.",
     demo: "https://ericismyhero.github.io/k.a.d.r/",
@@ -63,34 +63,34 @@ const projectDetails = {
       },
     ],
   },
-  arcade: {
-    title: "Əli’s Arcade",
-    category: "03 / BRAUZER OYUNLARI",
+  clash: {
+    title: "Clash-A-Mana",
+    category: "02 / OYUN DÜNYASI",
     intro:
-      "Bir keçiddən fərqli oyunlara daxil olmaq üçün retro arcade üslubunda hazırlanmış kolleksiya. mini-games reposunda hər oyun ayrıca qovluqda saxlanır.",
-    demo: "https://ericismyhero.github.io/mini-games/",
-    code: "https://github.com/EricIsMyHero/mini-games",
+      "Öz personajları, fraksiyaları və qaydaları olan Stagnantia kainatı. Bir oyun ideyasını kart arxivi, interaktiv döyüş və Survival təcrübəsi ilə birləşdirən layihəm.",
+    demo: "https://ericismyhero.github.io/oyun/",
+    code: "https://github.com/EricIsMyHero/oyun",
     sections: [
       {
-        title: "Kolleksiyada nələr var?",
+        title: "Bir oyun dünyası qurmaq",
+        text: "Bu layihədə təkcə bir ekran yox, bir-birini tamamlayan hekayə və mexanikalar var. Lore bölməsi dünyanı tanıdır; kart arxivi personajları, xüsusiyyətləri və nadirlik dərəcələrini araşdırmağa imkan verir.",
+      },
+      {
+        title: "Nələri kəşf edə bilərsən?",
         items: [
-          "Snake — klassik ilan oyunu.",
-          "Card Battle və Boss Chess — kart və şahmat mövzulu oyunlar.",
-          "System.exe və Night Shift — ayrıca oyun təcrübələri.",
-          "Tarazlıq və Bağban — kolleksiyanın digər iki oyunu.",
+          "Axtarış və nadirlik filtrləri ilə kart kolleksiyası, personaj detalları və sehr arxivi.",
+          "Battle Arena: komanda seçimi və növbəli döyüş məntiqi.",
+          "Survival: personaj seçimi, hərəkət, düşmən dalğaları və inkişaf seçimləri.",
+          "Oyun qaydalarını izah edən Codex, Power Up, Shop və irəliləyiş bölmələri.",
         ],
       },
       {
-        title: "Kataloqun quruluşu",
-        text: "games.json oyun başlığını, işarəsini, yolunu və statusunu saxlayır. JavaScript bu məlumatdan oyun kartlarını yaradır. “Tezliklə” statuslu Flappy Bird və Memory Card hazır oyun sayına daxil edilmir.",
+        title: "Pərdə arxasında",
+        text: "HTML, CSS və modullara ayrılmış JavaScript. Kartlar və digər oyun məlumatları JSON fayllarından oxunur. Canvas vizual effektlər üçün, ayrıca oyun modulları isə döyüş, hərəkət və irəliləyiş məntiqi üçün istifadə olunur.",
       },
       {
-        title: "Texniki yanaşma",
-        text: "Statik HTML, CSS və JavaScript. Ayrı oyun səhifələri müstəqil inkişaf etdirilə bilər. Kataloq yeni oyunu məlumat siyahısına əlavə etməklə genişlənir; əsas səhifədə ayrıca kart yazmağa ehtiyac qalmır.",
-      },
-      {
-        title: "Fokus",
-        text: "Oyun məntiqi, interaktiv idarəetmə və ardıcıl vizual təqdimat. Yeddi mövcud oyunu birləşdirən sadə giriş nöqtəsi.",
+        title: "Mənim üçün maraqlı tərəfi",
+        text: "Personajların hekayəsini və xüsusiyyətlərini işləyən oyun qaydalarına çevirmək. Layihə həm dünya qurmaq, həm də daha mürəkkəb interaktiv məntiq üzərində işləmək üçün yaradıcılıq meydanıdır.",
       },
     ],
   },
@@ -224,5 +224,67 @@ emailButton.addEventListener("click", async () => {
 });
 
 document.querySelector("#year").textContent = String(new Date().getFullYear());
+
+// Animate visible content once; keep the document readable without motion or JS.
+const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+const revealed = new WeakSet();
+let revealObserver;
+function configureReveals() {
+  revealObserver?.disconnect();
+  if (motionPreference.matches || !("IntersectionObserver" in window)) return;
+  revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const element = entry.target;
+        if (!revealed.has(element)) {
+          revealed.add(element);
+          element.animate(
+            [
+              { opacity: 0, transform: "translateY(24px)" },
+              { opacity: 1, transform: "translateY(0)" },
+            ],
+            { duration: 650, easing: "cubic-bezier(.2,.7,.2,1)" },
+          );
+        }
+        revealObserver.unobserve(element);
+      });
+    },
+    { threshold: 0.12 },
+  );
+  document
+    .querySelectorAll(
+      ".section-heading, .featured-project, .selected-card, .archive-card, .about-copy, .expertise-grid article, .process li, .social-card, .contact-main",
+    )
+    .forEach((element) => {
+      if (!revealed.has(element)) revealObserver.observe(element);
+    });
+}
+configureReveals();
+motionPreference.addEventListener("change", () => {
+  if (motionPreference.matches)
+    document.getAnimations().forEach((animation) => animation.cancel());
+  configureReveals();
+});
+
+const scrollProgress = document.querySelector(".scroll-progress span");
+const header = document.querySelector(".site-header");
+let scrollFrame;
+function updateScrollProgress() {
+  const distance = document.documentElement.scrollHeight - window.innerHeight;
+  const progress =
+    distance > 0 ? Math.min(1, Math.max(0, window.scrollY / distance)) : 0;
+  scrollProgress.style.transform = `scaleX(${progress})`;
+  header.classList.toggle("has-scrolled", window.scrollY > 20);
+  scrollFrame = undefined;
+}
+function scheduleScrollProgress() {
+  if (!scrollFrame) scrollFrame = requestAnimationFrame(updateScrollProgress);
+}
+window.addEventListener("scroll", scheduleScrollProgress, { passive: true });
+window.addEventListener("resize", scheduleScrollProgress);
+window.addEventListener("load", scheduleScrollProgress);
+updateScrollProgress();
+
 // Content and ordinary links remain available when JavaScript is disabled.
 document.documentElement.classList.add("js-ready");

@@ -7,7 +7,7 @@
     <title>Əli — Veb tərtibatçı və rəqəmsal yaradıcı | AliVerse Studio</title>
     <meta
       name="description"
-      content="Əlinin şəxsi portfeli: UNEC Students Hub, K.A.D.R, Əli’s Arcade və digər açıq mənbəli veb layihələri. İdeyadan işləyən rəqəmsal təcrübəyə."
+      content="Əlinin şəxsi portfeli: UNEC Students Hub, Clash-A-Mana, K.A.D.R və başqa veb təcrübələri. Bir az kod, bir az yaradıcılıq, çoxlu maraq."
     />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="az_AZ" />
@@ -31,12 +31,13 @@
       href="assets/manrope.ttf"
       as="font"
       type="font/ttf"
-      crossorigin
+      crossorigin=""
     />
     <link rel="stylesheet" href="styles.css" />
-    <script src="app.js" defer></script>
+    <script src="app.js" defer=""></script>
   </head>
   <body>
+    <div class="scroll-progress" aria-hidden="true"><span></span></div>
     <svg
       class="svg-definitions"
       xmlns="http://www.w3.org/2000/svg"
@@ -44,13 +45,13 @@
     >
       <defs>
         <symbol id="arrow-up-right" viewBox="0 0 24 24">
-          <path d="M6 18 18 6M6 6h12v12" />
+          <path d="M6 18 18 6M6 6h12v12"></path>
         </symbol>
         <symbol id="arrow-right" viewBox="0 0 24 24">
-          <path d="M4 12h16m-6-6 6 6-6 6" />
+          <path d="M4 12h16m-6-6 6 6-6 6"></path>
         </symbol>
         <symbol id="close-icon" viewBox="0 0 24 24">
-          <path d="m6 6 12 12M6 18 18 6" />
+          <path d="m6 6 12 12M6 18 18 6"></path>
         </symbol>
       </defs>
     </svg>
@@ -59,9 +60,7 @@
       <div class="container header-inner">
         <a class="brand" href="#home" aria-label="AliVerse Studio — ana səhifə"
           ><span class="brand-mark">a<span>.</span></span
-          ><span
-            >AliVerse<span class="brand-sub">STUDIO / ŞƏXSİ PORTFEL</span></span
-          ></a
+          ><span>AliVerse<span class="brand-sub">ŞƏXSİ PORTFEL</span></span></a
         >
         <button
           class="menu-toggle enhanced"
@@ -77,7 +76,7 @@
           ><a class="nav-contact" href="#contact"
             >Əlaqə
             <svg class="icon" aria-hidden="true">
-              <use href="#arrow-up-right" /></svg
+              <use href="#arrow-up-right"></use></svg
           ></a>
         </nav>
       </div>
@@ -86,21 +85,22 @@
       <section class="hero container" id="home" aria-labelledby="hero-title">
         <div class="hero-copy">
           <p class="eyebrow">
-            <span class="status-dot"></span> MÜSTƏQİL VEB TƏRTİBATÇI &amp;
-            YARADICI
+            <span class="welcome-wave" aria-hidden="true">👋</span> SALAM, XOŞ
+            GƏLMİSƏN!
           </p>
           <h1 id="hero-title">
             İdeyadan<br />rəqəmsal<br /><em>təcrübəyə.</em>
           </h1>
           <p class="hero-intro">
-            Salam, mən <strong>Əliyəm.</strong> Faydalı alətlər, düşünülmüş
-            interfeyslər və kəşf etməyə dəyər veb layihələr hazırlayıram.
+            Mən <strong>Əliyəm.</strong> Bəzən gündəlik bir ehtiyacı həll
+            edirəm, bəzən də sadəcə maraqlı bir fikir qururam. Bura
+            hazırladıqlarımı səninlə paylaşdığım kiçik guşəmdir.
           </p>
           <div class="hero-actions">
             <a class="button button-primary" href="#projects"
               >Layihələri kəşf et
               <svg class="icon" aria-hidden="true">
-                <use href="#arrow-right" /></svg></a
+                <use href="#arrow-right"></use></svg></a
             ><a
               class="text-link"
               href="https://github.com/EricIsMyHero"
@@ -108,20 +108,23 @@
               rel="noopener noreferrer"
               >GitHub profilim
               <svg class="icon" aria-hidden="true">
-                <use href="#arrow-up-right" /></svg
+                <use href="#arrow-up-right"></use></svg
             ></a>
           </div>
+          <a class="hello-link" href="#socials"
+            >Koddan kənarda da tanış olaq
+            <svg class="icon" aria-hidden="true">
+              <use href="#arrow-up-right"></use></svg
+          ></a>
           <p class="hero-footnote">
-            <span class="short-line"></span> Fikirdən ilk versiyaya. İlk
-            versiyadan daha yaxşısına.
+            <span class="short-line"></span> Bir az kod. Bir az yaradıcılıq.
+            Çoxlu maraq.
           </p>
         </div>
         <div class="hero-visual">
           <span class="visual-label mono">SEÇİLMİŞ İŞ / 01</span>
           <div class="visual-cross" aria-hidden="true">+</div>
-          <div class="orbit-label" aria-hidden="true">
-            IDEYA → KOD → TƏCRÜBƏ
-          </div>
+
           <a
             class="hero-project"
             href="#unec-project"
@@ -131,7 +134,9 @@
               <span class="browser-dots" aria-hidden="true"
                 ><i></i><i></i><i></i></span
               ><span>unecstudentshub.com</span
-              ><span aria-hidden="true">↗</span>
+              ><svg class="icon" aria-hidden="true">
+                <use href="#arrow-up-right"></use>
+              </svg>
             </div>
             <img
               src="assets/unec-hub.jpg"
@@ -146,7 +151,7 @@
                 ><span>Tələbələr üçün rəqəmsal məkan</span></span
               ><span class="round-arrow"
                 ><svg class="icon" aria-hidden="true">
-                  <use href="#arrow-up-right" /></svg
+                  <use href="#arrow-up-right"></use></svg
               ></span>
             </div>
           </a>
@@ -181,8 +186,8 @@
             </h2>
           </div>
           <p class="section-description">
-            Təhsildən əyləncəyə — fərqli ehtiyaclar üçün hazırladığım üç
-            layihəyə daha yaxından bax.
+            Üç fərqli dünya: tələbə həyatını asanlaşdıran alətlər, qurduğum oyun
+            kainatı və sevdiyim kadrlar. Gəl, yaxından baxaq.
           </p>
         </div>
         <article class="featured-project" id="unec-project">
@@ -215,9 +220,9 @@
             </p>
             <h3>UNEC<br />Students Hub<span class="accent">.</span></h3>
             <p>
-              İmtahan materiallarından başlayan və tələbə həyatını asanlaşdıran
-              alətlər toplusuna çevrilən layihə. Akademik resurslar, planlama və
-              süni intellekt dəstəyi bir interfeysdə.
+              Material axtarmağa daha az, öyrənməyə daha çox vaxt ayırmaq üçün.
+              İmtahan resursları ilə başlayan bu layihədə indi tələbə həyatına
+              kömək edən gündəlik alətlər də var.
             </p>
             <ul class="feature-list">
               <li>Fənn və kurs üzrə material axtarışı, hazırlıq testləri</li>
@@ -235,7 +240,7 @@
                 target="_blank"
                 rel="noopener noreferrer"
                 >Saytı aç<svg class="icon" aria-hidden="true">
-                  <use href="#arrow-up-right" /></svg
+                  <use href="#arrow-up-right"></use></svg
               ></a>
               <button
                 class="detail-button enhanced"
@@ -252,16 +257,71 @@
               rel="noopener noreferrer"
               >Mənbə kodu
               <svg class="icon" aria-hidden="true">
-                <use href="#arrow-up-right" /></svg
+                <use href="#arrow-up-right"></use></svg
             ></a>
           </div>
         </article>
         <div class="selected-grid">
+          <article class="selected-card" id="clash-project">
+            <div class="selected-visual clash-visual">
+              <div class="project-visual-top mono">
+                <span>02 / OYUN DÜNYASI</span
+                ><span class="small-badge">ƏSAS LAYİHƏ</span>
+              </div>
+              <img
+                src="assets/clash-a-mana.jpg"
+                width="1440"
+                height="1000"
+                loading="lazy"
+                alt="Clash-A-Mana: Stagnantia oyun dünyası və kart kainatının giriş səhifəsi"
+              />
+            </div>
+            <div class="selected-content">
+              <div class="project-title-row">
+                <h3>Clash-A-Mana<span class="accent">.</span></h3>
+                <span class="project-glyph" aria-hidden="true">⌘</span>
+              </div>
+              <p>
+                Öz qaydaları, personajları və hekayəsi olan bir oyun kainatı.
+                Kart arxivi, döyüş arenası və Survival rejimi — kodla dünya
+                qurmağın mənim üçün ən maraqlı tərəfi.
+              </p>
+              <div class="tags">
+                <span>JavaScript</span><span>Oyun məntiqi</span
+                ><span>Canvas</span><span>JSON</span>
+              </div>
+              <div class="card-bottom">
+                <div class="project-links">
+                  <a
+                    href="https://ericismyhero.github.io/oyun/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Saytı aç<svg class="icon" aria-hidden="true">
+                      <use href="#arrow-up-right"></use></svg></a
+                  ><a
+                    href="https://github.com/EricIsMyHero/oyun"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Kod<svg class="icon" aria-hidden="true">
+                      <use href="#arrow-up-right"></use></svg
+                  ></a>
+                </div>
+                <button
+                  class="detail-button enhanced"
+                  data-project="clash"
+                  type="button"
+                  aria-label="Clash-A-Mana layihəsi haqqında"
+                >
+                  Ətraflı <span aria-hidden="true">+</span>
+                </button>
+              </div>
+            </div>
+          </article>
           <article class="selected-card" id="kadr-project">
             <div class="selected-visual kadr-visual">
               <div class="project-visual-top mono">
-                <span>02 / MEDİA İNTERFEYSİ</span
-                ><span class="small-badge new-badge">YENİ ƏLAVƏ</span>
+                <span>03 / MEDİA İNTERFEYSİ</span
+                ><span class="small-badge">ƏSAS LAYİHƏ</span>
               </div>
               <img
                 src="assets/kadr.jpg"
@@ -277,9 +337,9 @@
                 <span class="project-glyph" aria-hidden="true">▣</span>
               </div>
               <p>
-                Şəxsi video arxivi üçün Azərbaycan dilində hazırlanmış
-                interfeys. Video axını, etiketlə axtarış, sevimlilər və izləmə
-                tarixçəsi ilə kolleksiyanı bir yerdə toplamaq üçün.
+                Bəzi kadrları təkrar izləmək istəyirsən. K.A.D.R həmin videoları
+                bir yerə yığmaq, rahat tapmaq və paylaşmaq üçün hazırladığım
+                şəxsi media guşəsidir.
               </p>
               <div class="tags">
                 <span>JavaScript</span><span>HTML5 Video</span
@@ -293,7 +353,7 @@
                     target="_blank"
                     rel="noopener noreferrer"
                     >Saytı aç<svg class="icon" aria-hidden="true">
-                      <use href="#arrow-up-right" /></svg
+                      <use href="#arrow-up-right"></use></svg
                   ></a>
                   <a
                     class=""
@@ -301,7 +361,7 @@
                     target="_blank"
                     rel="noopener noreferrer"
                     >Kod<svg class="icon" aria-hidden="true">
-                      <use href="#arrow-up-right" /></svg
+                      <use href="#arrow-up-right"></use></svg
                   ></a>
                 </div>
                 <button
@@ -309,64 +369,6 @@
                   data-project="kadr"
                   type="button"
                   aria-label="K.A.D.R layihəsi haqqında"
-                >
-                  Ətraflı <span aria-hidden="true">+</span>
-                </button>
-              </div>
-            </div>
-          </article>
-          <article class="selected-card" id="arcade-project">
-            <div class="selected-visual arcade-visual">
-              <div class="project-visual-top mono">
-                <span>03 / OYUN KOLLEKSİYASI</span
-                ><span class="small-badge new-badge">YENİ ƏLAVƏ</span>
-              </div>
-              <img
-                src="assets/mini-games.jpg"
-                width="1440"
-                height="1000"
-                loading="lazy"
-                alt="Əli’s Arcade interfeysində Snake, Card Battle və digər oyunların retro üslublu kartları"
-              />
-            </div>
-            <div class="selected-content">
-              <div class="project-title-row">
-                <h3>Əli’s Arcade<span class="accent">.</span></h3>
-                <span class="project-glyph" aria-hidden="true">⌘</span>
-              </div>
-              <p>
-                Retro arcade estetikasında brauzer oyunları kolleksiyası.
-                Snake-dən Boss Chess-ə qədər yeddi mövcud oyun, ayrıca oyun
-                səhifələri və JSON üzərindən idarə olunan kataloq.
-              </p>
-              <div class="tags">
-                <span>JavaScript</span><span>CSS</span><span>Oyun məntiqi</span
-                ><span>JSON</span>
-              </div>
-              <div class="card-bottom">
-                <div class="project-links">
-                  <a
-                    class=""
-                    href="https://ericismyhero.github.io/mini-games/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >Saytı aç<svg class="icon" aria-hidden="true">
-                      <use href="#arrow-up-right" /></svg
-                  ></a>
-                  <a
-                    class=""
-                    href="https://github.com/EricIsMyHero/mini-games"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >Kod<svg class="icon" aria-hidden="true">
-                      <use href="#arrow-up-right" /></svg
-                  ></a>
-                </div>
-                <button
-                  class="detail-button enhanced"
-                  data-project="arcade"
-                  type="button"
-                  aria-label="Əli’s Arcade layihəsi haqqında"
                 >
                   Ətraflı <span aria-hidden="true">+</span>
                 </button>
@@ -385,7 +387,7 @@
             rel="noopener noreferrer"
             >Bütün repolar
             <svg class="icon" aria-hidden="true">
-              <use href="#arrow-up-right" /></svg
+              <use href="#arrow-up-right"></use></svg
           ></a>
         </div>
       </section>
@@ -445,14 +447,14 @@
                   target="_blank"
                   rel="noopener noreferrer"
                   >Saytı aç<svg class="icon" aria-hidden="true">
-                    <use href="#arrow-up-right" /></svg></a
+                    <use href="#arrow-up-right"></use></svg></a
                 ><a
                   class=""
                   href="https://github.com/EricIsMyHero/seni-sevmeyimin-200-sebebi"
                   target="_blank"
                   rel="noopener noreferrer"
                   >Kod<svg class="icon" aria-hidden="true">
-                    <use href="#arrow-up-right" /></svg
+                    <use href="#arrow-up-right"></use></svg
                 ></a>
               </div>
             </article>
@@ -473,14 +475,14 @@
                   target="_blank"
                   rel="noopener noreferrer"
                   >Saytı aç<svg class="icon" aria-hidden="true">
-                    <use href="#arrow-up-right" /></svg></a
+                    <use href="#arrow-up-right"></use></svg></a
                 ><a
                   class=""
                   href="https://github.com/EricIsMyHero/mahni-paylashma"
                   target="_blank"
                   rel="noopener noreferrer"
                   >Kod<svg class="icon" aria-hidden="true">
-                    <use href="#arrow-up-right" /></svg
+                    <use href="#arrow-up-right"></use></svg
                 ></a>
               </div>
             </article>
@@ -501,14 +503,14 @@
                   target="_blank"
                   rel="noopener noreferrer"
                   >Saytı aç<svg class="icon" aria-hidden="true">
-                    <use href="#arrow-up-right" /></svg></a
+                    <use href="#arrow-up-right"></use></svg></a
                 ><a
                   class=""
                   href="https://github.com/EricIsMyHero/ali-oyun"
                   target="_blank"
                   rel="noopener noreferrer"
                   >Kod<svg class="icon" aria-hidden="true">
-                    <use href="#arrow-up-right" /></svg
+                    <use href="#arrow-up-right"></use></svg
                 ></a>
               </div>
             </article>
@@ -529,14 +531,14 @@
                   target="_blank"
                   rel="noopener noreferrer"
                   >Saytı aç<svg class="icon" aria-hidden="true">
-                    <use href="#arrow-up-right" /></svg></a
+                    <use href="#arrow-up-right"></use></svg></a
                 ><a
                   class=""
                   href="https://github.com/EricIsMyHero/eshq-olcher"
                   target="_blank"
                   rel="noopener noreferrer"
                   >Kod<svg class="icon" aria-hidden="true">
-                    <use href="#arrow-up-right" /></svg
+                    <use href="#arrow-up-right"></use></svg
                 ></a>
               </div>
             </article>
@@ -557,14 +559,14 @@
                   target="_blank"
                   rel="noopener noreferrer"
                   >Saytı aç<svg class="icon" aria-hidden="true">
-                    <use href="#arrow-up-right" /></svg></a
+                    <use href="#arrow-up-right"></use></svg></a
                 ><a
                   class=""
                   href="https://github.com/EricIsMyHero/bir-shans-daha-"
                   target="_blank"
                   rel="noopener noreferrer"
                   >Kod<svg class="icon" aria-hidden="true">
-                    <use href="#arrow-up-right" /></svg
+                    <use href="#arrow-up-right"></use></svg
                 ></a>
               </div>
             </article>
@@ -585,42 +587,40 @@
                   target="_blank"
                   rel="noopener noreferrer"
                   >Saytı aç<svg class="icon" aria-hidden="true">
-                    <use href="#arrow-up-right" /></svg></a
+                    <use href="#arrow-up-right"></use></svg></a
                 ><a
                   class=""
                   href="https://github.com/EricIsMyHero/her-gun-1-iltifat"
                   target="_blank"
                   rel="noopener noreferrer"
                   >Kod<svg class="icon" aria-hidden="true">
-                    <use href="#arrow-up-right" /></svg
+                    <use href="#arrow-up-right"></use></svg
                 ></a>
               </div>
             </article>
             <article class="archive-card" data-category="games">
               <div class="archive-top">
-                <span class="mono">07 / Oyun dünyası · Kartlar</span
+                <span class="mono">07 / Brauzer oyunları</span
                 ><span class="archive-mark" aria-hidden="true">⌘</span>
               </div>
-              <h3>Clash-A-Mana</h3>
+              <h3>Əli’s Arcade</h3>
               <p>
-                Uydurma personajlar, kartlar və oyun dünyası ətrafında qurulmuş
-                layihə. Yaradıcılıqla veb interfeysinin birləşdiyi məkan.
+                Retro arcade üslubunda yeddi brauzer oyunu. Snake, Boss Chess,
+                Card Battle və başqa kiçik oyunlarla bir az fasilə vermək üçün.
               </p>
               <div class="archive-links">
                 <a
-                  class=""
-                  href="https://ericismyhero.github.io/oyun/"
+                  href="https://ericismyhero.github.io/mini-games/"
                   target="_blank"
                   rel="noopener noreferrer"
                   >Saytı aç<svg class="icon" aria-hidden="true">
-                    <use href="#arrow-up-right" /></svg></a
+                    <use href="#arrow-up-right"></use></svg></a
                 ><a
-                  class=""
-                  href="https://github.com/EricIsMyHero/oyun"
+                  href="https://github.com/EricIsMyHero/mini-games"
                   target="_blank"
                   rel="noopener noreferrer"
                   >Kod<svg class="icon" aria-hidden="true">
-                    <use href="#arrow-up-right" /></svg
+                    <use href="#arrow-up-right"></use></svg
                 ></a>
               </div>
             </article>
@@ -656,19 +656,19 @@
             Salam, mən Əliyəm.<br /><em>Qurmağı sevirəm.</em>
           </h2>
           <p class="about-lead">
-            Marağım bir sualla başlayır: “Bunu daha faydalı, daha aydın və daha
-            maraqlı etmək olarmı?”
+            Bəzən bir ehtiyac, bəzən də “görəsən, bunu qura bilərəm?” sualı.
+            Layihələrimin başlanğıcı çox vaxt elə bu qədər sadədir.
           </p>
           <p>
-            AliVerse Studio şəxsi layihələrimi bir araya gətirdiyim məkandır.
-            Tələbələr üçün gündəlik alətlərdən media arxivlərinə və brauzer
-            oyunlarına qədər müxtəlif ideyaları veb üzərində həyata keçirirəm.
+            Bura mənim internetdəki guşəmdir. AliVerse Studio adı altında həm
+            faydalı alətlərimi, həm oyunları, həm də sırf xoşuma gəldiyi üçün
+            hazırladığım kiçik təcrübələri bir araya gətirirəm.
           </p>
           <p>
-            İşlərimdə aydın interfeysə, mobil istifadəyə və məzmunun rahat
-            təqdimatına önəm verirəm. Açıq mənbə paylaşmaq isə həm inkişaf
-            yolumu göstərməyin, həm də başqalarının fikirlərindən öyrənməyin bir
-            yoludur.
+            Hər layihədə yeni bir şey sınamaq xoşuma gəlir. İnterfeysin aydın,
+            telefonda istifadənin rahat olmasına çalışıram. Hazırladıqlarımı
+            açıq paylaşmaq isə bu yolun ən sevdiyim hissələrindən biridir. Bax,
+            yoxla, fikrini mənə de — maraqlıdır!
           </p>
           <div class="about-facts">
             <div>
@@ -784,23 +784,235 @@
         </div>
       </section>
       <section
+        class="social-section section container"
+        id="socials"
+        aria-labelledby="socials-title"
+      >
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow section-kicker">05 / KODDAN KƏNAR</p>
+            <h2 id="socials-title">Bir az kod,<br /><em>bir az da mən.</em></h2>
+          </div>
+          <p class="section-description">
+            Musiqi, videolar, fikirlər və gündəlik paylaşımlar. Hansı platforma
+            sənə rahatdırsa, orada da görüşək. Bütün profillərim buradadır.
+          </p>
+        </div>
+        <div class="social-grid">
+          <a
+            class="social-card"
+            data-social="tiktok"
+            href="https://tiktok.com/@ericismyhero_"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><img
+              class="social-logo"
+              src="assets/social/tiktok.svg"
+              width="28"
+              height="28"
+              loading="lazy"
+              alt="" /><span class="social-identity"
+              ><strong>TikTok</strong><span>@ericismyhero_</span></span
+            ><svg class="icon" aria-hidden="true">
+              <use href="#arrow-up-right"></use></svg></a
+          ><a
+            class="social-card"
+            data-social="facebook"
+            href="https://www.facebook.com/mr.aliprofilepicture"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><img
+              class="social-logo"
+              src="assets/social/facebook.svg"
+              width="28"
+              height="28"
+              loading="lazy"
+              alt="" /><span class="social-identity"
+              ><strong>Facebook</strong><span>mr.aliprofilepicture</span></span
+            ><svg class="icon" aria-hidden="true">
+              <use href="#arrow-up-right"></use></svg></a
+          ><a
+            class="social-card"
+            data-social="instagram"
+            href="https://www.instagram.com/the.real.ali77/"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><img
+              class="social-logo"
+              src="assets/social/instagram.svg"
+              width="28"
+              height="28"
+              loading="lazy"
+              alt="" /><span class="social-identity"
+              ><strong>Instagram</strong><span>@the.real.ali77</span></span
+            ><svg class="icon" aria-hidden="true">
+              <use href="#arrow-up-right"></use></svg></a
+          ><a
+            class="social-card"
+            data-social="github"
+            href="https://github.com/EricIsMyHero"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><img
+              class="social-logo"
+              src="assets/social/github.svg"
+              width="28"
+              height="28"
+              loading="lazy"
+              alt="" /><span class="social-identity"
+              ><strong>GitHub</strong><span>@EricIsMyHero</span></span
+            ><svg class="icon" aria-hidden="true">
+              <use href="#arrow-up-right"></use></svg></a
+          ><a
+            class="social-card"
+            data-social="spotify"
+            href="https://open.spotify.com/user/r54xg6cy20z3k1xuif2lrjmu7"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><img
+              class="social-logo"
+              src="assets/social/spotify.svg"
+              width="28"
+              height="28"
+              loading="lazy"
+              alt="" /><span class="social-identity"
+              ><strong>Spotify</strong><span>Musiqi guşəm</span></span
+            ><svg class="icon" aria-hidden="true">
+              <use href="#arrow-up-right"></use></svg></a
+          ><a
+            class="social-card"
+            data-social="telegram"
+            href="https://t.me/EricIsMyHero"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><img
+              class="social-logo"
+              src="assets/social/telegram.svg"
+              width="28"
+              height="28"
+              loading="lazy"
+              alt="" /><span class="social-identity"
+              ><strong>Telegram</strong><span>@EricIsMyHero</span></span
+            ><svg class="icon" aria-hidden="true">
+              <use href="#arrow-up-right"></use></svg></a
+          ><a
+            class="social-card"
+            data-social="youtube"
+            href="https://www.youtube.com/@ericismyhero"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><img
+              class="social-logo"
+              src="assets/social/youtube.svg"
+              width="28"
+              height="28"
+              loading="lazy"
+              alt="" /><span class="social-identity"
+              ><strong>YouTube</strong><span>@ericismyhero</span></span
+            ><svg class="icon" aria-hidden="true">
+              <use href="#arrow-up-right"></use></svg></a
+          ><a
+            class="social-card"
+            data-social="threads"
+            href="https://www.threads.com/@the.real.ali77"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><img
+              class="social-logo"
+              src="assets/social/threads.svg"
+              width="28"
+              height="28"
+              loading="lazy"
+              alt="" /><span class="social-identity"
+              ><strong>Threads</strong><span>@the.real.ali77</span></span
+            ><svg class="icon" aria-hidden="true">
+              <use href="#arrow-up-right"></use></svg></a
+          ><a
+            class="social-card"
+            data-social="x"
+            href="https://x.com/EricIsMyHero_0"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><img
+              class="social-logo"
+              src="assets/social/x.svg"
+              width="28"
+              height="28"
+              loading="lazy"
+              alt="" /><span class="social-identity"
+              ><strong>X (Twitter)</strong><span>@EricIsMyHero_0</span></span
+            ><svg class="icon" aria-hidden="true">
+              <use href="#arrow-up-right"></use></svg></a
+          ><a
+            class="social-card"
+            data-social="reddit"
+            href="https://www.reddit.com/u/EricIsMyHero"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><img
+              class="social-logo"
+              src="assets/social/reddit.svg"
+              width="28"
+              height="28"
+              loading="lazy"
+              alt="" /><span class="social-identity"
+              ><strong>Reddit</strong><span>u/EricIsMyHero</span></span
+            ><svg class="icon" aria-hidden="true">
+              <use href="#arrow-up-right"></use></svg></a
+          ><a
+            class="social-card"
+            data-social="discord"
+            href="https://discord.gg/62wNrV79HR"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><img
+              class="social-logo"
+              src="assets/social/discord.svg"
+              width="28"
+              height="28"
+              loading="lazy"
+              alt="" /><span class="social-identity"
+              ><strong>Discord</strong><span>İcma söhbətimiz</span></span
+            ><svg class="icon" aria-hidden="true">
+              <use href="#arrow-up-right"></use></svg></a
+          ><a
+            class="social-card"
+            data-social="pinterest"
+            href="https://pin.it/3G3vV67cB"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><img
+              class="social-logo"
+              src="assets/social/pinterest.svg"
+              width="28"
+              height="28"
+              loading="lazy"
+              alt="" /><span class="social-identity"
+              ><strong>Pinterest</strong><span>İlham lövhəm</span></span
+            ><svg class="icon" aria-hidden="true">
+              <use href="#arrow-up-right"></use></svg
+          ></a>
+        </div>
+      </section>
+      <section
         class="contact-section"
         id="contact"
         aria-labelledby="contact-title"
       >
         <div class="container">
           <div class="contact-top">
-            <p class="eyebrow">05 / ƏLAQƏ</p>
+            <p class="eyebrow">06 / ƏLAQƏ</p>
             <span class="mono">YENİ BİR SÖHBƏTƏ AÇIQ</span>
           </div>
           <div class="contact-main">
             <div>
               <h2 id="contact-title">
-                Yaxşı ideyalar<br /><em>söhbətlə başlayır.</em>
+                Bir ideyan var?<br /><em>Yaz, danışaq.</em>
               </h2>
               <p>
-                Layihə haqqında danışmaq, fikir paylaşmaq və ya sadəcə salam
-                vermək istəyirsənsə, mənə yaz.
+                Bir layihə barədə danışaq, mahnı paylaşaq, ya da sadəcə
+                salamlaşaq. Uzun təqdimata ehtiyac yoxdur — bir “salam”
+                kifayətdir.
               </p>
             </div>
             <a
@@ -808,7 +1020,7 @@
               href="mailto:ericismyhero2467@gmail.com"
               aria-label="Əliyə e-poçt yaz"
               ><svg class="icon" aria-hidden="true">
-                <use href="#arrow-up-right" /></svg
+                <use href="#arrow-up-right"></use></svg
             ></a>
           </div>
           <div class="contact-bottom">
@@ -829,32 +1041,11 @@
                 aria-live="polite"
               ></span>
             </div>
-            <div class="contact-socials">
-              <a
-                class=""
-                href="https://github.com/EricIsMyHero"
-                target="_blank"
-                rel="noopener noreferrer"
-                >GitHub<svg class="icon" aria-hidden="true">
-                  <use href="#arrow-up-right" /></svg
-              ></a>
-              <a
-                class=""
-                href="https://www.youtube.com/@ericismyhero"
-                target="_blank"
-                rel="noopener noreferrer"
-                >YouTube<svg class="icon" aria-hidden="true">
-                  <use href="#arrow-up-right" /></svg
-              ></a>
-              <a
-                class=""
-                href="https://www.instagram.com/the.real.ali77"
-                target="_blank"
-                rel="noopener noreferrer"
-                >Instagram<svg class="icon" aria-hidden="true">
-                  <use href="#arrow-up-right" /></svg
-              ></a>
-            </div>
+            <a class="contact-social-jump" href="#socials"
+              >Sosial profillərim
+              <svg class="icon" aria-hidden="true">
+                <use href="#arrow-up-right"></use></svg
+            ></a>
           </div>
         </div>
       </section>
@@ -862,27 +1053,11 @@
     <footer class="site-footer container">
       <a class="footer-brand" href="#home">AliVerse Studio<span>✳</span></a>
       <p>© <span id="year">2026</span> Əli. Maraqla hazırlanıb.</p>
-      <details class="more-socials">
-        <summary>Digər profillər <span aria-hidden="true">+</span></summary>
-        <div>
-          <a
-            href="https://www.tiktok.com/@ericismyhero_"
-            target="_blank"
-            rel="noopener noreferrer"
-            >TikTok ↗</a
-          ><a
-            href="https://discord.gg/62wNrV79HR"
-            target="_blank"
-            rel="noopener noreferrer"
-            >Discord ↗</a
-          ><a
-            href="https://open.spotify.com/user/r54xg6cy20z3k1xuif2lrjmu7"
-            target="_blank"
-            rel="noopener noreferrer"
-            >Spotify ↗</a
-          >
-        </div>
-      </details>
+      <a class="footer-social-link" href="#socials"
+        >Bütün sosial profillər
+        <svg class="icon" aria-hidden="true">
+          <use href="#arrow-up-right"></use></svg
+      ></a>
       <a class="back-top" href="#home">Yuxarı qayıt ↑</a>
     </footer>
     <dialog
@@ -899,7 +1074,7 @@
             aria-label="Layihə məlumatını bağla"
           >
             <svg class="icon" aria-hidden="true">
-              <use href="#close-icon" />
+              <use href="#close-icon"></use>
             </svg>
           </button>
         </div>
@@ -914,7 +1089,7 @@
             rel="noopener noreferrer"
             >Saytı aç
             <svg class="icon" aria-hidden="true">
-              <use href="#arrow-up-right" /></svg></a
+              <use href="#arrow-up-right"></use></svg></a
           ><a
             class="text-link"
             id="dialog-code"
@@ -922,7 +1097,7 @@
             rel="noopener noreferrer"
             >Mənbə kodu
             <svg class="icon" aria-hidden="true">
-              <use href="#arrow-up-right" /></svg
+              <use href="#arrow-up-right"></use></svg
           ></a>
         </div>
       </div>

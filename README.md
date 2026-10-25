@@ -1,6 +1,6 @@
 # AliVerse Studio — Əlinin portfeli
 
-Azərbaycan dilində şəxsi portfel. Təhsil platformaları, media interfeysləri və brauzer oyunlarından ibarət **10 layihə** təqdim edir.
+Azərbaycan dilində şəxsi portfel. Təhsil platformaları, media interfeysləri və brauzer oyunlarından ibarət **10 layihə** və loqoları ilə **12 sosial profil** təqdim edir.
 
 ## Lokal işə salmaq
 
@@ -34,18 +34,21 @@ Testlər öz lokal serverini **8765** portunda başladır. Masaüstü və mobil 
 - E-poçtun kopyalanmasının uğurlu və icazə verilməyən ssenariləri.
 - JavaScript söndürüləndə əsas məzmun və keçidlər.
 - 320–1920 px ekranlarda üfüqi daşmanın olmaması.
+- Bütün sosial profillərin görünməsi, lokal loqoların yüklənməsi və JSON ilə keçid uyğunluğu.
+- Əsas layihələrin sırası və etiket / əsas mətn ölçülərinin oxunaqlılığı.
+- Giriş və scroll animasiyaları, irəliləyiş xətti və azaldılmış hərəkət seçiminin işləməsi.
 - axe ilə avtomatik WCAG 2 A/AA və WCAG 2.1 AA yoxlamaları. Bu, tam əlçatanlıq auditini əvəz etmir.
 
 ## Fayllar
 
-| Fayl         | Məzmun                                                               |
-| ------------ | -------------------------------------------------------------------- |
-| `index.html` | Semantik, JavaScript olmadan da oxunan səhifə və layihə kartları     |
-| `styles.css` | Dizayn sistemi, responsive görünüş və azaldılmış hərəkət dəstəyi     |
-| `app.js`     | Menyu, filtrlər, layihə məlumatları və e-poçtu kopyalama             |
-| `links.json` | Layihə və sosial keçidlər; mövcud məlumat quruluşu qorunur           |
-| `assets/`    | Lokal şrift, lisenziya, favicon, ekran görüntüləri və paylaşma şəkli |
-| `tests/`     | Playwright funksional və əlçatanlıq yoxlamaları                      |
+| Fayl         | Məzmun                                                                 |
+| ------------ | ---------------------------------------------------------------------- |
+| `index.html` | Semantik, JavaScript olmadan da oxunan səhifə və layihə kartları       |
+| `styles.css` | Dizayn sistemi, responsive görünüş və azaldılmış hərəkət dəstəyi       |
+| `app.js`     | Menyu, filtrlər, layihə məlumatları, animasiyalar və e-poçtu kopyalama |
+| `links.json` | Layihə keçidləri və lokal loqo yolları ilə bütün sosial profillər      |
+| `assets/`    | Lokal şrift, lisenziya, favicon, ekran görüntüləri və paylaşma şəkli   |
+| `tests/`     | Playwright funksional və əlçatanlıq yoxlamaları                        |
 
 ## Layihəni yeniləmək
 
@@ -58,7 +61,15 @@ Sosial paylaşma məlumatları `index.html` daxilindəki Open Graph metadatasın
 ## Seçilmiş layihələr
 
 - [UNEC Students Hub](https://github.com/EricIsMyHero/ericismyhero.github.io): akademik resurslar və tələbə alətləri. [Sayt](https://unecstudentshub.com)
-- [K.A.D.R](https://github.com/EricIsMyHero/k.a.d.r): şəxsi video kolleksiyası üçün interfeys. Portfelə yeni əlavə edilib.
-- [Əli’s Arcade](https://github.com/EricIsMyHero/mini-games): yeddi mövcud oyundan ibarət brauzer kolleksiyası. Portfelə yeni əlavə edilib.
+- [Clash-A-Mana](https://github.com/EricIsMyHero/oyun): kart arxivi, döyüş və Survival rejimi olan oyun kainatı.
+- [K.A.D.R](https://github.com/EricIsMyHero/k.a.d.r): şəxsi video kolleksiyası üçün interfeys.
+
+[Əli’s Arcade](https://github.com/EricIsMyHero/mini-games) digər yeddi layihədən biri kimi arxivdə saxlanır.
 
 Ekran görüntülərinin mənbələri və şrift lisenziyası: [assets/README.md](assets/README.md).
+
+## Sosial profillər və hərəkət
+
+TikTok, Facebook, Instagram, GitHub, Spotify, Telegram, YouTube, Threads, X, Reddit, Discord və Pinterest profilləri `#socials` bölməsində gizli menyusuz göstərilir. Profil əlavə edərkən həm `index.html` kartını, həm də `links.json` daxilindəki `social` qeydini yeniləyin. Loqolar `assets/social/` qovluğunda saxlanır və xarici ikon servisinə sorğu getmir.
+
+Əsas mətnlər ekran ölçüsündən asılı olaraq 14–16 px, köməkçi etiketlər ən az 12 px-dir. Giriş, salamlaşma, sürüşdürmə ilə görünmə, kart hover və dialoq açılma effektləri var. Dekorativ giriş hərəkətləri 4.5 saniyədən gec olmayaraq bitir; davamlı avtomatik animasiya yoxdur. `prefers-reduced-motion: reduce` seçimi olduqda hərəkət söndürülür. Mətnlər animasiya başlamadan da sənəddədir və JavaScript söndürüləndə görünür.

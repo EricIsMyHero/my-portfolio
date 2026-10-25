@@ -1,6 +1,18 @@
 const { test, expect } = require("@playwright/test");
 const AxeBuilder = require("@axe-core/playwright").default;
 
+async function settleMotion(page) {
+  await page.evaluate(async () => {
+    await new Promise(requestAnimationFrame);
+    await new Promise(requestAnimationFrame);
+    await Promise.all(
+      document
+        .getAnimations()
+        .map((animation) => animation.finished.catch(() => {})),
+    );
+  });
+}
+
 test("portfolio and local assets load without runtime or request errors", async ({
   page,
   request,
@@ -60,7 +72,7 @@ test("all project dialogs show matching content, trap focus and restore it", asy
   const names = {
     unec: "UNEC Students Hub",
     kadr: "K.A.D.R",
-    arcade: "Əli’s Arcade",
+    clash: "Clash-A-Mana",
   };
   for (const [id, name] of Object.entries(names)) {
     const trigger = page.locator(`[data-project="${id}"]`);
@@ -242,9 +254,167 @@ test("page and project dialog meet automated WCAG AA checks", async ({
     new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
       .analyze();
+  await settleMotion(page);
   let result = await analyze();
   expect(result.violations).toEqual([]);
   await page.locator('[data-project="kadr"]').click();
+  await settleMotion(page);
   result = await analyze();
   expect(result.violations).toEqual([]);
+});
+
+test("all twelve social profiles are visible with local logos and matching links", async ({
+  page,
+  request,
+}) => {
+  await page.goto("/");
+  const data = await (await request.get("/links.json")).json();
+  expect(data.social).toHaveLength(12);
+  await expect(page.locator(".social-card")).toHaveCount(12);
+  const required = {
+    tiktok: "https://tiktok.com/@ericismyhero_",
+    facebook: "https://www.facebook.com/mr.aliprofilepicture",
+    instagram: "https://www.instagram.com/the.real.ali77/",
+    github: "https://github.com/EricIsMyHero",
+    spotify: "https://open.spotify.com/user/r54xg6cy20z3k1xuif2lrjmu7",
+    telegram: "https://t.me/EricIsMyHero",
+  };
+  for (const [slug, url] of Object.entries(required)) {
+    await expect(page.locator(`[data-social="${slug}"]`)).toHaveAttribute(
+      "href",
+      url,
+    );
+  }
+  for (const social of data.social) {
+    const card = page.locator(`.social-card[href="${social.url}"]`);
+    await card.scrollIntoViewIfNeeded();
+    await expect(card).toBeVisible();
+    await expect(card.locator("img")).toHaveAttribute("src", social.logo);
+    await expect
+      .poll(() =>
+        card
+          .locator("img")
+          .evaluate((img) => img.complete && img.naturalWidth > 0),
+      )
+      .toBe(true);
+    expect(await card.evaluate((el) => !el.closest("details"))).toBe(true);
+  }
+});
+
+test("the three main projects match the requested order and Arcade remains in the archive", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const ids = await page
+    .locator(".featured-project, .selected-card")
+    .evaluateAll((cards) => cards.map((card) => card.id));
+  expect(ids).toEqual(["unec-project", "clash-project", "kadr-project"]);
+  await expect(
+    page.locator("#clash-project .project-links a").first(),
+  ).toHaveAttribute("href", "https://ericismyhero.github.io/oyun/");
+  await expect(page.locator("#clash-project img")).toHaveAttribute(
+    "src",
+    "assets/clash-a-mana.jpg",
+  );
+  await expect(
+    page
+      .locator(".archive-card")
+      .filter({ has: page.getByRole("heading", { name: "Əli’s Arcade" }) }),
+  ).toHaveCount(1);
+});
+
+test("labels and body text remain comfortably readable", async ({ page }) => {
+  await page.goto("/");
+  const smallLabels = await page
+    .locator(
+      ".tags span, .archive-top .mono, .filters button, .social-identity span, .hero-footnote, .section-kicker",
+    )
+    .evaluateAll((elements) =>
+      elements
+        .filter((el) => parseFloat(getComputedStyle(el).fontSize) < 12)
+        .map((el) => el.outerHTML),
+    );
+  const smallCopy = await page
+    .locator(
+      ".hero-intro, .section-description, .selected-content > p, .archive-card > p, .about-copy > p:not(.eyebrow)",
+    )
+    .evaluateAll((elements) =>
+      elements
+        .filter((el) => parseFloat(getComputedStyle(el).fontSize) < 14)
+        .map((el) => el.outerHTML),
+    );
+  expect(smallLabels).toEqual([]);
+  expect(smallCopy).toEqual([]);
+});
+
+test("welcome and scroll animations run and the page progress follows scrolling", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  expect(
+    await page
+      .locator(".welcome-wave")
+      .evaluate((el) => getComputedStyle(el).animationName),
+  ).toBe("welcome-wave");
+  await page.evaluate(() =>
+    document
+      .querySelector("#socials .social-card")
+      .scrollIntoView({ behavior: "instant", block: "center" }),
+  );
+  await expect
+    .poll(() =>
+      page
+        .locator("#socials .social-card")
+        .first()
+        .evaluate((el) =>
+          el
+            .getAnimations()
+            .some((animation) => animation.playState === "running"),
+        ),
+    )
+    .toBe(true);
+  await page.evaluate(() =>
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "instant",
+    }),
+  );
+  await expect
+    .poll(() =>
+      page
+        .locator(".scroll-progress span")
+        .evaluate(
+          (el) => new DOMMatrixReadOnly(getComputedStyle(el).transform).m11,
+        ),
+    )
+    .toBeCloseTo(1, 2);
+  await expect(page.locator(".site-header")).toHaveClass(/has-scrolled/);
+});
+
+test("reduced motion stops decorative movement and leaves the content usable", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect
+    .poll(() => page.evaluate(() => document.getAnimations().length))
+    .toBe(0);
+  expect(
+    await page
+      .locator(".welcome-wave")
+      .evaluate((el) => getComputedStyle(el).animationName),
+  ).toBe("none");
+  await page.evaluate(() =>
+    document.querySelector("#socials").scrollIntoView({ behavior: "instant" }),
+  );
+  await settleMotion(page);
+  expect(await page.evaluate(() => document.getAnimations().length)).toBe(0);
+  await expect(page.locator("[data-social=telegram]")).toBeVisible();
+  await page.locator('[data-project="clash"]').click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await expect(
+    page.getByRole("dialog").getByRole("heading", { level: 2 }),
+  ).toHaveText("Clash-A-Mana");
 });
