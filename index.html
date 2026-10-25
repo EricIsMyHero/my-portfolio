@@ -1,1397 +1,931 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ali ✦ Builder & Creator</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-/* ── Reset & Variables ─────────────────────────────── */
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-
-:root {
-  --black:   #080808;
-  --off:     #111111;
-  --card:    #161616;
-  --border:  rgba(255,255,255,0.07);
-  --muted:   #555;
-  --text:    #d8d4cc;
-  --white:   #f0ebe0;
-  --gold:    #c9a84c;
-  --gold2:   #e8c97a;
-  --glow:    rgba(201,168,76,0.15);
-  --r:       14px;
-}
-
-html { scroll-behavior: smooth; }
-
-body {
-  background: var(--black);
-  color: var(--text);
-  font-family: 'Outfit', sans-serif;
-  font-size: 16px;
-  line-height: 1.65;
-  overflow-x: hidden;
-}
-
-/* ── Noise texture overlay ─────────────────────────── */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.028;
-  pointer-events: none;
-  z-index: 9999;
-}
-
-/* ── Page fade-in ──────────────────────────────────── */
-@keyframes fadeIn {
-  from { opacity:0; transform:translateY(12px); }
-  to   { opacity:1; transform:translateY(0); }
-}
-.page-wrapper { animation: fadeIn 0.9s ease both; }
-
-/* ── Navbar ────────────────────────────────────────── */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  padding: 22px 7%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: background 0.4s, backdrop-filter 0.4s;
-}
-nav.scrolled {
-  background: rgba(8,8,8,0.82);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border-bottom: 1px solid var(--border);
-}
-
-.nav-logo {
-  font-family: 'Playfair Display', serif;
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--white);
-  letter-spacing: 0.5px;
-  text-decoration: none;
-}
-.nav-logo span { color: var(--gold); }
-
-.nav-links { display:flex; gap:36px; align-items:center; }
-.nav-links a {
-  color: var(--muted);
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.3px;
-  transition: color 0.2s;
-  position: relative;
-}
-.nav-links a::after {
-  content:'';
-  position:absolute;
-  left:0; bottom:-3px;
-  width:0; height:1px;
-  background: var(--gold);
-  transition: width 0.3s;
-}
-.nav-links a:hover { color: var(--white); }
-.nav-links a:hover::after { width:100%; }
-
-.nav-cta {
-  padding: 9px 20px;
-  border: 1px solid var(--gold);
-  border-radius: 8px;
-  color: var(--gold) !important;
-  font-size: 13px !important;
-  transition: background 0.25s, color 0.25s !important;
-}
-.nav-cta:hover {
-  background: var(--gold) !important;
-  color: var(--black) !important;
-}
-.nav-cta::after { display:none !important; }
-
-/* ── Hero ──────────────────────────────────────────── */
-.hero {
-  min-height: 100vh;
-  padding: 0 7%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: 60px;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Large decorative letter */
-.hero-bg-letter {
-  position: absolute;
-  right: -2%;
-  top: 50%;
-  transform: translateY(-55%);
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(200px, 28vw, 420px);
-  font-weight: 900;
-  font-style: italic;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(201,168,76,0.08);
-  user-select: none;
-  pointer-events: none;
-  line-height: 1;
-}
-
-/* Glow orb */
-.hero::after {
-  content:'';
-  position:absolute;
-  width: 600px; height: 600px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(201,168,76,0.10), transparent 70%);
-  right: -100px; top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-
-.hero-left { position:relative; z-index:1; }
-
-.hero-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 28px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: var(--gold);
-}
-.hero-eyebrow::before {
-  content:'';
-  display:block;
-  width:28px; height:1px;
-  background: var(--gold);
-}
-
-.hero-left h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(40px, 5.5vw, 72px);
-  font-weight: 900;
-  line-height: 1.08;
-  color: var(--white);
-  letter-spacing: -1px;
-  margin-bottom: 22px;
-}
-.hero-left h1 em {
-  font-style: italic;
-  color: var(--gold);
-}
-
-.hero-left p {
-  font-size: 17px;
-  color: var(--muted);
-  max-width: 420px;
-  line-height: 1.75;
-  margin-bottom: 14px;
-  font-weight: 300;
-}
-
-/* ── NEW: "no clients" note ───────────────────────── */
-.hero-note {
-  font-size: 13px;
-  color: #3a3a3a;
-  font-style: italic;
-  margin-bottom: 36px;
-  font-weight: 400;
-  letter-spacing: 0.2px;
-}
-
-.hero-btns { display:flex; gap:14px; flex-wrap:wrap; }
-
-.btn {
-  display: inline-block;
-  padding: 13px 26px;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
-  letter-spacing: 0.3px;
-  transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
-}
-.btn:active { transform: scale(0.96); }
-
-.btn-gold {
-  background: linear-gradient(135deg, var(--gold), var(--gold2));
-  color: var(--black);
-  box-shadow: 0 4px 24px rgba(201,168,76,0.25);
-}
-.btn-gold:hover { filter: brightness(1.1); box-shadow: 0 8px 32px rgba(201,168,76,0.35); transform: translateY(-2px); }
-
-.btn-ghost {
-  border: 1px solid var(--border);
-  color: var(--text);
-  background: rgba(255,255,255,0.03);
-}
-.btn-ghost:hover { border-color: rgba(255,255,255,0.18); color: var(--white); transform: translateY(-2px); }
-
-/* Hero right — stats block */
-.hero-right {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.stat-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  padding: 26px 30px;
-  position: relative;
-  overflow: hidden;
-  transition: border-color 0.3s, transform 0.3s;
-}
-.stat-card::before {
-  content:'';
-  position:absolute;
-  top:0; left:0; right:0;
-  height:1px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  opacity:0;
-  transition: opacity 0.3s;
-}
-.stat-card:hover { border-color: rgba(201,168,76,0.2); transform: translateX(6px); }
-.stat-card:hover::before { opacity: 1; }
-
-.stat-num {
-  font-family: 'Playfair Display', serif;
-  font-size: 42px;
-  font-weight: 700;
-  color: var(--white);
-  line-height: 1;
-  margin-bottom: 6px;
-}
-.stat-num span { color: var(--gold); }
-.stat-label { font-size: 13px; color: var(--muted); font-weight: 400; letter-spacing: 0.5px; }
-
-.stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-
-/* ── Section shell ─────────────────────────────────── */
-.section {
-  padding: 110px 7%;
-  max-width: 1280px;
-  margin: 0 auto;
-}
-
-.section-header {
-  display: flex;
-  align-items: baseline;
-  gap: 20px;
-  margin-bottom: 60px;
-}
-.section-num {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  color: var(--gold);
-  text-transform: uppercase;
-}
-.section-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(28px, 3.5vw, 44px);
-  font-weight: 700;
-  color: var(--white);
-  letter-spacing: -0.5px;
-}
-.section-line {
-  flex:1;
-  height:1px;
-  background: var(--border);
-  margin-left: 10px;
-}
-
-/* ── Scroll reveal ─────────────────────────────────── */
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-.reveal.visible { opacity:1; transform:translateY(0); }
-
-/* ── Projects ──────────────────────────────────────── */
-.featured-project {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  margin-bottom: 24px;
-  transition: border-color 0.3s;
-}
-.featured-project:hover { border-color: rgba(201,168,76,0.25); }
-
-.fp-image {
-  background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
-  min-height: 340px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 80px;
-  position: relative;
-  overflow: hidden;
-}
-.fp-image::after {
-  content:'';
-  position:absolute;
-  inset:0;
-  background: linear-gradient(135deg, rgba(201,168,76,0.05), transparent);
-}
-.fp-image img {
-  width:100%;
-  height:100%;
-  object-fit: cover;
-  position:absolute;
-  inset:0;
-}
-
-.fp-content {
-  padding: 44px 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.fp-badge {
-  display: inline-block;
-  padding: 5px 12px;
-  background: rgba(201,168,76,0.1);
-  border: 1px solid rgba(201,168,76,0.25);
-  border-radius: 30px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 18px;
-  width: fit-content;
-}
-.fp-content h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--white);
-  margin-bottom: 14px;
-  line-height: 1.2;
-}
-.fp-content p {
-  font-size: 15px;
-  color: var(--muted);
-  line-height: 1.75;
-  margin-bottom: 26px;
-  font-weight: 300;
-}
-.fp-tags { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:30px; }
-
-.tag {
-  padding: 5px 12px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  font-size: 12px;
-  color: var(--muted);
-  transition: border-color 0.2s, color 0.2s;
-}
-.tag:hover { border-color: var(--gold); color: var(--gold); }
-
-.fp-links { display:flex; gap:12px; }
-
-.link-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 10px 18px;
-  border-radius: 9px;
-  font-size: 13px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: all 0.2s;
-}
-.link-btn svg { width:14px; height:14px; }
-.link-btn-filled {
-  background: var(--gold);
-  color: var(--black);
-}
-.link-btn-filled:hover { filter: brightness(1.1); transform: translateY(-1px); }
-.link-btn-outline {
-  border: 1px solid var(--border);
-  color: var(--text);
-}
-.link-btn-outline:hover { border-color: rgba(255,255,255,0.2); color: var(--white); transform: translateY(-1px); }
-
-/* Grid projects */
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-}
-
-.project-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  overflow: hidden;
-  transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), box-shadow 0.3s, border-color 0.3s;
-  cursor: pointer;
-}
-.project-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-  border-color: rgba(201,168,76,0.18);
-}
-
-.card-thumb {
-  height: 180px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 52px;
-  position: relative;
-  overflow: hidden;
-}
-.card-thumb img {
-  width:100%; height:100%; object-fit:cover;
-  transition: transform 0.4s;
-}
-.project-card:hover .card-thumb img { transform: scale(1.06); }
-.card-thumb-overlay {
-  position:absolute;
-  inset:0;
-  background: linear-gradient(to top, rgba(22,22,22,0.8) 0%, transparent 60%);
-  opacity:0;
-  transition: opacity 0.3s;
-  display:flex;
-  align-items:flex-end;
-  padding:16px;
-  gap:8px;
-}
-.project-card:hover .card-thumb-overlay { opacity:1; }
-.thumb-link {
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
-  padding:7px 12px;
-  background:rgba(255,255,255,0.12);
-  backdrop-filter:blur(8px);
-  border-radius:8px;
-  font-size:12px;
-  font-weight:500;
-  color:#fff;
-  text-decoration:none;
-  border:1px solid rgba(255,255,255,0.15);
-  transition:background 0.2s;
-}
-.thumb-link:hover { background:rgba(255,255,255,0.22); }
-.thumb-link svg { width:12px; height:12px; }
-
-.card-body { padding:20px 22px 22px; }
-.card-body h3 {
-  font-family:'Playfair Display', serif;
-  font-size:18px;
-  font-weight:700;
-  color:var(--white);
-  margin-bottom:8px;
-}
-.card-body p { font-size:13px; color:var(--muted); line-height:1.65; margin-bottom:14px; font-weight:300; }
-.card-tags { display:flex; flex-wrap:wrap; gap:6px; }
-.card-tag {
-  padding:3px 9px;
-  background:rgba(201,168,76,0.08);
-  border:1px solid rgba(201,168,76,0.15);
-  border-radius:20px;
-  font-size:11px;
-  color:rgba(201,168,76,0.7);
-}
-
-/* ── About ─────────────────────────────────────────── */
-.about-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  gap: 70px;
-  align-items: start;
-}
-
-.about-image-wrap {
-  position: relative;
-}
-.about-image-frame {
-  border-radius: 18px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  background: var(--card);
-  aspect-ratio: 4/5;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:80px;
-}
-.about-image-frame img { width:100%; height:100%; object-fit:cover; }
-
-/* Floating badge */
-.about-badge {
-  position: absolute;
-  bottom: -16px;
-  right: -16px;
-  background: var(--gold);
-  color: var(--black);
-  border-radius: 14px;
-  padding: 16px 20px;
-  font-size:13px;
-  font-weight:700;
-  line-height:1.2;
-  box-shadow: 0 12px 40px rgba(201,168,76,0.3);
-  text-align:center;
-}
-.about-badge span { display:block; font-size:24px; font-weight:900; font-family:'Playfair Display',serif; }
-
-.about-content { padding-top: 10px; }
-.about-content p {
-  font-size:16px;
-  color:var(--muted);
-  line-height:1.85;
-  margin-bottom:22px;
-  font-weight:300;
-}
-.about-content p strong { color:var(--white); font-weight:500; }
-
-.about-stats {
-  display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap:20px;
-  margin-top:36px;
-  padding-top:36px;
-  border-top:1px solid var(--border);
-}
-.astat-num {
-  font-family:'Playfair Display',serif;
-  font-size:34px;
-  font-weight:700;
-  color:var(--white);
-  line-height:1;
-}
-.astat-num sup { font-size:18px; color:var(--gold); }
-.astat-label { font-size:12px; color:var(--muted); margin-top:4px; text-transform:uppercase; letter-spacing:0.8px; }
-
-/* ── Skills ────────────────────────────────────────── */
-.skills-wrap {
-  display:grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  gap:12px;
-}
-.skill-pill {
-  padding:12px 16px;
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:12px;
-  font-size:13px;
-  font-weight:500;
-  color:var(--muted);
-  text-align:center;
-  transition:border-color 0.25s, color 0.25s, box-shadow 0.25s, transform 0.25s;
-  cursor:default;
-}
-.skill-pill:hover {
-  border-color: var(--gold);
-  color: var(--gold);
-  box-shadow: 0 0 18px var(--glow);
-  transform: translateY(-3px);
-}
-
-/* ── Footer / Contact ──────────────────────────────── */
-.footer {
-  padding: 80px 7% 50px;
-  border-top:1px solid var(--border);
-  max-width:1280px;
-  margin:0 auto;
-}
-
-.footer-top {
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
-  margin-bottom:50px;
-  flex-wrap:wrap;
-  gap:30px;
-}
-.footer-cta h2 {
-  font-family:'Playfair Display',serif;
-  font-size:clamp(28px, 4vw, 52px);
-  font-weight:900;
-  color:var(--white);
-  line-height:1.1;
-  margin-bottom:16px;
-}
-.footer-cta h2 em { color:var(--gold); font-style:italic; }
-.footer-cta p { font-size:16px; color:var(--muted); font-weight:300; }
-
-.footer-links {
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-  align-items:flex-end;
-}
-.footer-link {
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  font-size:14px;
-  font-weight:500;
-  color:var(--muted);
-  text-decoration:none;
-  transition:color 0.2s, transform 0.2s;
-}
-.footer-link svg { width:16px; height:16px; }
-.footer-link:hover { color:var(--white); transform:translateX(-4px); }
-
-.footer-bottom {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding-top:30px;
-  border-top:1px solid var(--border);
-  font-size:13px;
-  color:var(--muted);
-  flex-wrap:wrap;
-  gap:12px;
-}
-.footer-logo {
-  font-family:'Playfair Display',serif;
-  font-size:18px;
-  font-weight:700;
-  color:var(--white);
-}
-.footer-logo span { color:var(--gold); }
-
-/* ── Responsive ────────────────────────────────────── */
-@media (max-width:900px) {
-  .hero { grid-template-columns:1fr; padding-top:120px; padding-bottom:80px; }
-  .hero-right { display:none; }
-  .hero-bg-letter { display:none; }
-  .featured-project { grid-template-columns:1fr; }
-  .fp-image { min-height:220px; }
-  .about-grid { grid-template-columns:1fr; }
-  .about-image-wrap { max-width:320px; }
-  .nav-links { display:none; }
-  .footer-top { flex-direction:column; align-items:flex-start; }
-  .footer-links { align-items:flex-start; }
-  .footer-link:hover { transform:translateX(4px); }
-}
-
-/* ── Blog / Learnings ──────────────────────────────── */
-.blog-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-}
-
-.blog-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  padding: 28px 26px;
-  transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), border-color 0.3s, box-shadow 0.3s;
-  position: relative;
-  overflow: hidden;
-}
-.blog-card::before {
-  content:'';
-  position:absolute;
-  top:0; left:0; right:0;
-  height:2px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  opacity:0;
-  transition: opacity 0.3s;
-}
-.blog-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(201,168,76,0.2);
-  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-}
-.blog-card:hover::before { opacity:1; }
-
-.blog-date {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 12px;
-}
-
-.blog-card h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 19px;
-  font-weight: 700;
-  color: var(--white);
-  margin-bottom: 10px;
-  line-height: 1.3;
-}
-
-.blog-card p {
-  font-size: 14px;
-  color: var(--muted);
-  line-height: 1.75;
-  margin-bottom: 18px;
-  font-weight: 300;
-}
-
-.blog-link {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--gold);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  position: relative;
-}
-.blog-link::after {
-  content: '';
-  position: absolute;
-  width: 0; height: 1px;
-  background: var(--gold);
-  left: 0; bottom: -2px;
-  transition: width 0.3s;
-}
-.blog-link:hover::after { width: 100%; }
-.blog-link-arrow { transition: transform 0.2s; }
-.blog-link:hover .blog-link-arrow { transform: translateX(4px); }
-
-/* ── Project Story Modal ───────────────────────────── */
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.75);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
-  padding: 20px;
-  backdrop-filter: blur(4px);
-}
-.modal.open { display: flex; }
-
-@keyframes modalIn {
-  from { opacity:0; transform:scale(0.94) translateY(16px); }
-  to   { opacity:1; transform:scale(1) translateY(0); }
-}
-
-.modal-content {
-  background: var(--card);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 20px;
-  padding: 40px;
-  max-width: 580px;
-  width: 100%;
-  position: relative;
-  animation: modalIn 0.3s cubic-bezier(.34,1.56,.64,1) both;
-  box-shadow: 0 40px 100px rgba(0,0,0,0.6);
-}
-
-.modal-close {
-  position: absolute;
-  top: 18px; right: 20px;
-  font-size: 22px;
-  color: var(--muted);
-  cursor: pointer;
-  line-height: 1;
-  transition: color 0.2s, transform 0.2s;
-  background: none; border: none;
-}
-.modal-close:hover { color: var(--white); transform: rotate(90deg); }
-
-.modal-badge {
-  display: inline-block;
-  padding: 4px 10px;
-  background: rgba(201,168,76,0.1);
-  border: 1px solid rgba(201,168,76,0.2);
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 16px;
-}
-
-.modal-content h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--white);
-  margin-bottom: 24px;
-  line-height: 1.2;
-}
-
-.modal-block {
-  margin-bottom: 20px;
-  padding-left: 14px;
-  border-left: 2px solid rgba(201,168,76,0.3);
-}
-.modal-block h4 {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 6px;
-}
-.modal-block p {
-  font-size: 14px;
-  color: #888;
-  line-height: 1.75;
-  font-weight: 300;
-}
-
-/* Story hint on card */
-.card-story-hint {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  margin-top: 10px;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  color: rgba(201,168,76,0.55);
-  transition: color 0.2s;
-}
-.project-card:hover .card-story-hint { color: var(--gold); }
-.card-story-hint svg { width: 10px; height: 10px; }
-</style>
-</head>
-
-<body>
-<div class="page-wrapper">
-
-<!-- ── NAV ───────────────────────────────────────────── -->
-<nav id="navbar">
-  <a href="#" class="nav-logo">AliVerse Studio ✦<span>.</span></a>
-  <div class="nav-links">
-    <a href="#projects">Projects</a>
-    <a href="#blog">Learnings</a>
-    <a href="#about">About</a>
-    <a href="#skills">Skills</a>
-    <a href="#contact" class="nav-cta">Say Hello</a>
-  </div>
-</nav>
-
-<!-- ── HERO ──────────────────────────────────────────── -->
-<section class="hero" id="home">
-  <div class="hero-bg-letter">A</div>
-
-  <div class="hero-left">
-    <!-- CHANGED: "Available for work" → creator eyebrow -->
-    <div class="hero-eyebrow">Personal projects & experiments</div>
-
-    <!-- CHANGED: heading -->
-    <h1>I build ideas<br><em>for fun</em><br>and share them.</h1>
-
-    <!-- CHANGED: description -->
-    <p>This is my space to publish projects, test ideas, and share what I learn along the way. If something here catches your attention, feel free to reach out.</p>
-
-    <!-- CHANGED: "no clients" note — the key differentiator -->
-    <p class="hero-note">No clients. No pressure. Just projects I wanted to build.</p>
-
-    <!-- CHANGED: CTAs -->
-    <div class="hero-btns">
-      <a href="#projects" class="btn btn-gold">Explore Projects</a>
-      <a href="#contact" class="btn btn-ghost">Say Hello</a>
-    </div>
-  </div>
-
-  <div class="hero-right">
-    <div class="stat-card">
-      <div class="stat-num">10<span>+</span></div>
-      <div class="stat-label">Projects shipped</div>
-    </div>
-    <div class="stat-row">
-      <div class="stat-card">
-        <div class="stat-num">1<span>+</span></div>
-        <div class="stat-label">Years building</div>
+<!doctype html>
+<html lang="az">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#111714" />
+    <title>Əli — Veb tərtibatçı və rəqəmsal yaradıcı | AliVerse Studio</title>
+    <meta
+      name="description"
+      content="Əlinin şəxsi portfeli: UNEC Students Hub, K.A.D.R, Əli’s Arcade və digər açıq mənbəli veb layihələri. İdeyadan işləyən rəqəmsal təcrübəyə."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="az_AZ" />
+    <meta property="og:title" content="Əli — İdeyadan rəqəmsal təcrübəyə" />
+    <meta
+      property="og:description"
+      content="Təhsil platformaları, media interfeysləri və brauzer oyunları. AliVerse Studio-dan seçilmiş layihələr."
+    />
+    <meta
+      property="og:image"
+      content="https://ericismyhero.github.io/my-portfolio/assets/social-preview.png"
+    />
+    <meta
+      property="og:image:alt"
+      content="AliVerse Studio — Əlinin veb layihələri və rəqəmsal təcrübələri"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      href="assets/manrope.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <svg
+      class="svg-definitions"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <defs>
+        <symbol id="arrow-up-right" viewBox="0 0 24 24">
+          <path d="M6 18 18 6M6 6h12v12" />
+        </symbol>
+        <symbol id="arrow-right" viewBox="0 0 24 24">
+          <path d="M4 12h16m-6-6 6 6-6 6" />
+        </symbol>
+        <symbol id="close-icon" viewBox="0 0 24 24">
+          <path d="m6 6 12 12M6 18 18 6" />
+        </symbol>
+      </defs>
+    </svg>
+    <a class="skip-link" href="#main">Məzmuna keç</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="#home" aria-label="AliVerse Studio — ana səhifə"
+          ><span class="brand-mark">a<span>.</span></span
+          ><span
+            >AliVerse<span class="brand-sub">STUDIO / ŞƏXSİ PORTFEL</span></span
+          ></a
+        >
+        <button
+          class="menu-toggle enhanced"
+          type="button"
+          aria-controls="main-nav"
+          aria-expanded="false"
+        >
+          <span>Menyu</span><span class="menu-lines" aria-hidden="true"></span>
+        </button>
+        <nav class="main-nav" id="main-nav" aria-label="Əsas naviqasiya">
+          <a href="#projects">Layihələr</a><a href="#about">Haqqımda</a
+          ><a href="#expertise">Bacarıqlar</a
+          ><a class="nav-contact" href="#contact"
+            >Əlaqə
+            <svg class="icon" aria-hidden="true">
+              <use href="#arrow-up-right" /></svg
+          ></a>
+        </nav>
       </div>
-      <div class="stat-card">
-        <div class="stat-num">8<span>+</span></div>
-        <div class="stat-label">Technologies</div>
-      </div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num" style="font-size:24px; font-family:'Outfit',sans-serif; font-weight:300; color:var(--muted); line-height:1.6;">
-        "Build it. Ship it. Learn from it."
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── PROJECTS ───────────────────────────────────────── -->
-<div class="section reveal" id="projects">
-  <div class="section-header">
-    <span class="section-num">01</span>
-    <!-- CHANGED: "Selected Work" → "Things I Built" -->
-    <h2 class="section-title">Things I Built</h2>
-    <div class="section-line"></div>
-  </div>
-
-  <!-- Featured project -->
-  <div class="featured-project reveal">
-    <div class="fp-image" style="background:linear-gradient(135deg, #0f2027, #203a43, #2c5364);">
-      🎓
-    </div>
-    <div class="fp-content">
-      <div class="fp-badge">Featured</div>
-      <h3>Unec İmtahan Materialları</h3>
-      <p>A comprehensive exam prep platform for UNEC students. Clean interface, fast load times, and mobile-first design. Organized study materials that help students prepare effectively.</p>
-      <div class="fp-tags">
-        <span class="tag">HTML</span>
-        <span class="tag">CSS</span>
-        <span class="tag">JavaScript</span>
-        <span class="tag">GitHub Pages</span>
-      </div>
-      <div class="fp-links">
-        <a href="https://ericismyhero.github.io" target="_blank" rel="noopener" class="link-btn link-btn-filled">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          Live Demo
-        </a>
-        <a href="https://github.com/EricIsMyHero" target="_blank" rel="noopener" class="link-btn link-btn-outline">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-          GitHub
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Project grid -->
-  <div class="projects-grid">
-
-    <div class="project-card reveal"
-         data-title="Səni Sevməyimin 200 Səbəbi"
-         data-tried="I wanted to build something emotional instead of just technical. Most web projects feel cold — I wanted to create something warm and personal."
-         data-built="Pure CSS animations with staggered reveals. No libraries, no frameworks. Just HTML, CSS, and a bit of JS to control the reveal sequence."
-         data-result="People spent much longer on this page than any other project. Emotion drives engagement more than features do.">
-      <div class="card-thumb" style="background:linear-gradient(135deg, #1a0533, #3d0068);">
-        💜
-        <div class="card-thumb-overlay">
-          <a href="https://EricIsMyHero.github.io/seni-sevmeyimin-200-sebebi/" target="_blank" class="thumb-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Live
+    </header>
+    <main id="main">
+      <section class="hero container" id="home" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">
+            <span class="status-dot"></span> MÜSTƏQİL VEB TƏRTİBATÇI &amp;
+            YARADICI
+          </p>
+          <h1 id="hero-title">
+            İdeyadan<br />rəqəmsal<br /><em>təcrübəyə.</em>
+          </h1>
+          <p class="hero-intro">
+            Salam, mən <strong>Əliyəm.</strong> Faydalı alətlər, düşünülmüş
+            interfeyslər və kəşf etməyə dəyər veb layihələr hazırlayıram.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#projects"
+              >Layihələri kəşf et
+              <svg class="icon" aria-hidden="true">
+                <use href="#arrow-right" /></svg></a
+            ><a
+              class="text-link"
+              href="https://github.com/EricIsMyHero"
+              target="_blank"
+              rel="noopener noreferrer"
+              >GitHub profilim
+              <svg class="icon" aria-hidden="true">
+                <use href="#arrow-up-right" /></svg
+            ></a>
+          </div>
+          <p class="hero-footnote">
+            <span class="short-line"></span> Fikirdən ilk versiyaya. İlk
+            versiyadan daha yaxşısına.
+          </p>
+        </div>
+        <div class="hero-visual">
+          <span class="visual-label mono">SEÇİLMİŞ İŞ / 01</span>
+          <div class="visual-cross" aria-hidden="true">+</div>
+          <div class="orbit-label" aria-hidden="true">
+            IDEYA → KOD → TƏCRÜBƏ
+          </div>
+          <a
+            class="hero-project"
+            href="#unec-project"
+            aria-label="UNEC Students Hub layihəsi haqqında oxu"
+          >
+            <div class="browser-bar">
+              <span class="browser-dots" aria-hidden="true"
+                ><i></i><i></i><i></i></span
+              ><span>unecstudentshub.com</span
+              ><span aria-hidden="true">↗</span>
+            </div>
+            <img
+              src="assets/unec-hub.jpg"
+              width="1440"
+              height="1000"
+              alt="UNEC Students Hub interfeysi: kurslar, testlər, GPA kalkulyatoru və tələbə alətləri"
+              fetchpriority="high"
+            />
+            <div class="hero-project-caption">
+              <span
+                ><strong>UNEC Students Hub</strong
+                ><span>Tələbələr üçün rəqəmsal məkan</span></span
+              ><span class="round-arrow"
+                ><svg class="icon" aria-hidden="true">
+                  <use href="#arrow-up-right" /></svg
+              ></span>
+            </div>
           </a>
-          <a href="https://github.com/EricIsMyHero" target="_blank" class="thumb-link">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-            Code
-          </a>
+          <div class="floating-note">
+            <span class="note-icon" aria-hidden="true">✳</span
+            ><span>Real ehtiyac.<br /><strong>İşləyən həll.</strong></span>
+          </div>
+        </div>
+      </section>
+      <div class="focus-strip">
+        <div class="container focus-inner">
+          <span>ÖNCƏ FİKİR. SONRA DETALLAR.</span>
+          <div>
+            <span>Təhsil platformaları</span><i aria-hidden="true">✳</i
+            ><span>Rəqəmsal təcrübələr</span><i aria-hidden="true">✳</i
+            ><span>Brauzer oyunları</span>
+          </div>
         </div>
       </div>
-      <div class="card-body">
-        <h3>Səni Sevməyimin 200 Səbəbi</h3>
-        <p>A heartfelt interactive web experience. Animated reveal of 200 unique reasons, built with pure CSS transitions.</p>
-        <div class="card-tags">
-          <span class="card-tag">HTML</span><span class="card-tag">CSS</span><span class="card-tag">JS</span>
+      <section
+        class="section container"
+        id="projects"
+        aria-labelledby="projects-title"
+      >
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow section-kicker">01 / SEÇİLMİŞ İŞLƏR</p>
+            <h2 id="projects-title">
+              Koddan daha çox.<br /><span class="muted-heading"
+                >Bir fikrin işləyən forması.</span
+              >
+            </h2>
+          </div>
+          <p class="section-description">
+            Təhsildən əyləncəyə — fərqli ehtiyaclar üçün hazırladığım üç
+            layihəyə daha yaxından bax.
+          </p>
         </div>
-        <div class="card-story-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Click to read the story</div>
-      </div>
-    </div>
-
-    <div class="project-card reveal"
-         data-title="Mahnı Paylaşma"
-         data-tried="I wanted a simple way to share songs with friends — not a full Spotify clone, just a lightweight page for sending music you love."
-         data-built="Clean HTML/CSS/JS with no backend. Music links are embedded directly. Focused on speed and a minimal UI that gets out of the way."
-         data-result="Simplicity is a design decision. Removing features can be harder than adding them — and often more effective.">
-      <div class="card-thumb" style="background:linear-gradient(135deg, #0a1628, #1e3a5f);">
-        🎵
-        <div class="card-thumb-overlay">
-          <a href="https://EricIsMyHero.github.io/mahni-paylashma/" target="_blank" class="thumb-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Live
-          </a>
-          <a href="https://github.com/EricIsMyHero" target="_blank" class="thumb-link">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-            Code
-          </a>
+        <article class="featured-project" id="unec-project">
+          <div class="featured-visual">
+            <div class="project-visual-top mono">
+              <span>01 / TƏHSİL &amp; MƏHSULDARLIQ</span
+              ><span class="small-badge">ƏSAS LAYİHƏ</span>
+            </div>
+            <div class="project-screen">
+              <div class="browser-bar">
+                <span class="browser-dots" aria-hidden="true"
+                  ><i></i><i></i><i></i></span
+                ><span>UNEC Students Hub</span>
+              </div>
+              <img
+                src="assets/unec-hub.jpg"
+                width="1440"
+                height="1000"
+                alt="UNEC Students Hub ana səhifəsinin ekran görüntüsü"
+                loading="lazy"
+              />
+            </div>
+            <div class="visual-tech mono">
+              VANILLA JAVASCRIPT <span>·</span> PWA <span>·</span> FIREBASE
+            </div>
+          </div>
+          <div class="featured-content">
+            <p class="project-category">
+              Tələbə icması üçün açıq mənbəli platforma
+            </p>
+            <h3>UNEC<br />Students Hub<span class="accent">.</span></h3>
+            <p>
+              İmtahan materiallarından başlayan və tələbə həyatını asanlaşdıran
+              alətlər toplusuna çevrilən layihə. Akademik resurslar, planlama və
+              süni intellekt dəstəyi bir interfeysdə.
+            </p>
+            <ul class="feature-list">
+              <li>Fənn və kurs üzrə material axtarışı, hazırlıq testləri</li>
+              <li>GPA kalkulyatoru, ixtisas planı və Pomodoro taymeri</li>
+              <li>AZ / EN interfeysi, AI köməkçi və PWA quruluşu</li>
+            </ul>
+            <div class="tags">
+              <span>JavaScript</span><span>Firebase</span><span>Vercel</span
+              ><span>Cloudflare R2</span>
+            </div>
+            <div class="project-actions">
+              <a
+                class="button button-primary"
+                href="https://unecstudentshub.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Saytı aç<svg class="icon" aria-hidden="true">
+                  <use href="#arrow-up-right" /></svg
+              ></a>
+              <button
+                class="detail-button enhanced"
+                data-project="unec"
+                type="button"
+              >
+                Layihə haqqında <span aria-hidden="true">+</span>
+              </button>
+            </div>
+            <a
+              class="source-link"
+              href="https://github.com/EricIsMyHero/ericismyhero.github.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Mənbə kodu
+              <svg class="icon" aria-hidden="true">
+                <use href="#arrow-up-right" /></svg
+            ></a>
+          </div>
+        </article>
+        <div class="selected-grid">
+          <article class="selected-card" id="kadr-project">
+            <div class="selected-visual kadr-visual">
+              <div class="project-visual-top mono">
+                <span>02 / MEDİA İNTERFEYSİ</span
+                ><span class="small-badge new-badge">YENİ ƏLAVƏ</span>
+              </div>
+              <img
+                src="assets/kadr.jpg"
+                width="1440"
+                height="1000"
+                loading="lazy"
+                alt="K.A.D.R interfeysində video axtarışı və kateqoriya kartları"
+              />
+            </div>
+            <div class="selected-content">
+              <div class="project-title-row">
+                <h3>K.A.D.R<span class="accent">.</span></h3>
+                <span class="project-glyph" aria-hidden="true">▣</span>
+              </div>
+              <p>
+                Şəxsi video arxivi üçün Azərbaycan dilində hazırlanmış
+                interfeys. Video axını, etiketlə axtarış, sevimlilər və izləmə
+                tarixçəsi ilə kolleksiyanı bir yerdə toplamaq üçün.
+              </p>
+              <div class="tags">
+                <span>JavaScript</span><span>HTML5 Video</span
+                ><span>LocalStorage</span><span>JSON</span>
+              </div>
+              <div class="card-bottom">
+                <div class="project-links">
+                  <a
+                    class=""
+                    href="https://ericismyhero.github.io/k.a.d.r/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Saytı aç<svg class="icon" aria-hidden="true">
+                      <use href="#arrow-up-right" /></svg
+                  ></a>
+                  <a
+                    class=""
+                    href="https://github.com/EricIsMyHero/k.a.d.r"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Kod<svg class="icon" aria-hidden="true">
+                      <use href="#arrow-up-right" /></svg
+                  ></a>
+                </div>
+                <button
+                  class="detail-button enhanced"
+                  data-project="kadr"
+                  type="button"
+                  aria-label="K.A.D.R layihəsi haqqında"
+                >
+                  Ətraflı <span aria-hidden="true">+</span>
+                </button>
+              </div>
+            </div>
+          </article>
+          <article class="selected-card" id="arcade-project">
+            <div class="selected-visual arcade-visual">
+              <div class="project-visual-top mono">
+                <span>03 / OYUN KOLLEKSİYASI</span
+                ><span class="small-badge new-badge">YENİ ƏLAVƏ</span>
+              </div>
+              <img
+                src="assets/mini-games.jpg"
+                width="1440"
+                height="1000"
+                loading="lazy"
+                alt="Əli’s Arcade interfeysində Snake, Card Battle və digər oyunların retro üslublu kartları"
+              />
+            </div>
+            <div class="selected-content">
+              <div class="project-title-row">
+                <h3>Əli’s Arcade<span class="accent">.</span></h3>
+                <span class="project-glyph" aria-hidden="true">⌘</span>
+              </div>
+              <p>
+                Retro arcade estetikasında brauzer oyunları kolleksiyası.
+                Snake-dən Boss Chess-ə qədər yeddi mövcud oyun, ayrıca oyun
+                səhifələri və JSON üzərindən idarə olunan kataloq.
+              </p>
+              <div class="tags">
+                <span>JavaScript</span><span>CSS</span><span>Oyun məntiqi</span
+                ><span>JSON</span>
+              </div>
+              <div class="card-bottom">
+                <div class="project-links">
+                  <a
+                    class=""
+                    href="https://ericismyhero.github.io/mini-games/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Saytı aç<svg class="icon" aria-hidden="true">
+                      <use href="#arrow-up-right" /></svg
+                  ></a>
+                  <a
+                    class=""
+                    href="https://github.com/EricIsMyHero/mini-games"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Kod<svg class="icon" aria-hidden="true">
+                      <use href="#arrow-up-right" /></svg
+                  ></a>
+                </div>
+                <button
+                  class="detail-button enhanced"
+                  data-project="arcade"
+                  type="button"
+                  aria-label="Əli’s Arcade layihəsi haqqında"
+                >
+                  Ətraflı <span aria-hidden="true">+</span>
+                </button>
+              </div>
+            </div>
+          </article>
         </div>
-      </div>
-      <div class="card-body">
-        <h3>Mahnı Paylaşma</h3>
-        <p>Music sharing platform with a clean, minimal UI. Share songs with friends through a simple, fast interface.</p>
-        <div class="card-tags">
-          <span class="card-tag">HTML</span><span class="card-tag">CSS</span><span class="card-tag">JavaScript</span>
+        <div class="projects-note">
+          <span class="status-dot"></span>
+          <p>
+            Təhsil, media və oyun — fərqli ideyalar, açıq mənbəli layihələr.
+          </p>
+          <a
+            href="https://github.com/EricIsMyHero?tab=repositories"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Bütün repolar
+            <svg class="icon" aria-hidden="true">
+              <use href="#arrow-up-right" /></svg
+          ></a>
         </div>
-        <div class="card-story-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Click to read the story</div>
-      </div>
-    </div>
-
-    <div class="project-card reveal"
-         data-title="Əlinin Oyunları"
-         data-tried="I wanted to understand how games actually work under the hood — collision detection, game loops, score systems — without relying on any game library."
-         data-built="Pure JavaScript with Canvas API. Each mini game was built from scratch. The game loop pattern was the biggest challenge to figure out correctly."
-         data-result="Building without libraries forces you to understand fundamentals. I now know exactly what those libraries are doing behind the scenes.">
-      <div class="card-thumb" style="background:linear-gradient(135deg, #0d2137, #1a4a6b);">
-        🎮
-        <div class="card-thumb-overlay">
-          <a href="https://EricIsMyHero.github.io/ali-oyun/" target="_blank" class="thumb-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Live
-          </a>
-          <a href="https://github.com/EricIsMyHero" target="_blank" class="thumb-link">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-            Code
-          </a>
+      </section>
+      <section
+        class="archive-section"
+        id="archive"
+        aria-labelledby="archive-title"
+      >
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow section-kicker">02 / YARADICI ARXİV</p>
+              <h2 id="archive-title">Hər layihə bir addım.</h2>
+            </div>
+            <p class="section-description">
+              Kiçik ideyalar, şəxsi hekayələr və interaktiv təcrübələr. Əvvəlki
+              işlərim də bu yolun bir hissəsidir.
+            </p>
+          </div>
+          <div class="archive-toolbar enhanced">
+            <div
+              class="filters"
+              role="group"
+              aria-label="Arxiv layihələrini filtrlə"
+            >
+              <button type="button" data-filter="all" aria-pressed="true">
+                Hamısı <span>07</span></button
+              ><button type="button" data-filter="games" aria-pressed="false">
+                Oyunlar <span>02</span></button
+              ><button
+                type="button"
+                data-filter="creative"
+                aria-pressed="false"
+              >
+                Yaradıcı təcrübələr <span>05</span>
+              </button>
+            </div>
+            <p id="filter-status" class="mono" role="status" aria-live="polite">
+              7 layihə göstərilir
+            </p>
+          </div>
+          <div class="archive-grid">
+            <article class="archive-card" data-category="creative">
+              <div class="archive-top">
+                <span class="mono">01 / Yaradıcı təcrübə</span
+                ><span class="archive-mark" aria-hidden="true">✳</span>
+              </div>
+              <h3>Səni Sevməyimin 200 Səbəbi</h3>
+              <p>
+                Şəxsi bir hekayəni veb səhifəsinə çevirən, mətn və vizual
+                təqdimat üzərində qurulmuş yaradıcı layihə.
+              </p>
+              <div class="archive-links">
+                <a
+                  class=""
+                  href="https://ericismyhero.github.io/seni-sevmeyimin-200-sebebi/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Saytı aç<svg class="icon" aria-hidden="true">
+                    <use href="#arrow-up-right" /></svg></a
+                ><a
+                  class=""
+                  href="https://github.com/EricIsMyHero/seni-sevmeyimin-200-sebebi"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Kod<svg class="icon" aria-hidden="true">
+                    <use href="#arrow-up-right" /></svg
+                ></a>
+              </div>
+            </article>
+            <article class="archive-card" data-category="creative">
+              <div class="archive-top">
+                <span class="mono">02 / Musiqi · İnterfeys</span
+                ><span class="archive-mark" aria-hidden="true">✳</span>
+              </div>
+              <h3>Mahnı Paylaşma</h3>
+              <p>
+                Musiqini paylaşmaq üçün hazırlanmış sadə veb interfeys. Məzmunun
+                ön planda olduğu kiçik bir rəqəmsal təcrübə.
+              </p>
+              <div class="archive-links">
+                <a
+                  class=""
+                  href="https://ericismyhero.github.io/mahni-paylashma/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Saytı aç<svg class="icon" aria-hidden="true">
+                    <use href="#arrow-up-right" /></svg></a
+                ><a
+                  class=""
+                  href="https://github.com/EricIsMyHero/mahni-paylashma"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Kod<svg class="icon" aria-hidden="true">
+                    <use href="#arrow-up-right" /></svg
+                ></a>
+              </div>
+            </article>
+            <article class="archive-card" data-category="games">
+              <div class="archive-top">
+                <span class="mono">03 / Brauzer oyunları</span
+                ><span class="archive-mark" aria-hidden="true">⌘</span>
+              </div>
+              <h3>Əlinin Oyunları</h3>
+              <p>
+                Brauzerdə oynamaq üçün hazırladığım oyunlar. İnteraktiv məntiq
+                və oyun interfeysləri üzrə əvvəlki işlərimdən biri.
+              </p>
+              <div class="archive-links">
+                <a
+                  class=""
+                  href="https://ericismyhero.github.io/ali-oyun/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Saytı aç<svg class="icon" aria-hidden="true">
+                    <use href="#arrow-up-right" /></svg></a
+                ><a
+                  class=""
+                  href="https://github.com/EricIsMyHero/ali-oyun"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Kod<svg class="icon" aria-hidden="true">
+                    <use href="#arrow-up-right" /></svg
+                ></a>
+              </div>
+            </article>
+            <article class="archive-card" data-category="creative">
+              <div class="archive-top">
+                <span class="mono">04 / İnteraktiv təcrübə</span
+                ><span class="archive-mark" aria-hidden="true">✳</span>
+              </div>
+              <h3>Eşq Ölçər</h3>
+              <p>
+                Adlar üzərindən qurulmuş əyləncəli uyğunluq təcrübəsi. Gündəlik
+                bir ideyanın interaktiv səhifəyə çevrilməsi.
+              </p>
+              <div class="archive-links">
+                <a
+                  class=""
+                  href="https://ericismyhero.github.io/eshq-olcher/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Saytı aç<svg class="icon" aria-hidden="true">
+                    <use href="#arrow-up-right" /></svg></a
+                ><a
+                  class=""
+                  href="https://github.com/EricIsMyHero/eshq-olcher"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Kod<svg class="icon" aria-hidden="true">
+                    <use href="#arrow-up-right" /></svg
+                ></a>
+              </div>
+            </article>
+            <article class="archive-card" data-category="creative">
+              <div class="archive-top">
+                <span class="mono">05 / Rəqəmsal hekayə</span
+                ><span class="archive-mark" aria-hidden="true">✳</span>
+              </div>
+              <h3>Bir Şans Daha?</h3>
+              <p>
+                Şəxsi hekayə və emosional təqdimatı birləşdirən veb layihə.
+                Kiçik bir fikri ayrıca rəqəmsal məkanda ifadə edir.
+              </p>
+              <div class="archive-links">
+                <a
+                  class=""
+                  href="https://ericismyhero.github.io/bir-shans-daha-/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Saytı aç<svg class="icon" aria-hidden="true">
+                    <use href="#arrow-up-right" /></svg></a
+                ><a
+                  class=""
+                  href="https://github.com/EricIsMyHero/bir-shans-daha-"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Kod<svg class="icon" aria-hidden="true">
+                    <use href="#arrow-up-right" /></svg
+                ></a>
+              </div>
+            </article>
+            <article class="archive-card" data-category="creative">
+              <div class="archive-top">
+                <span class="mono">06 / Yaradıcı təcrübə</span
+                ><span class="archive-mark" aria-hidden="true">✳</span>
+              </div>
+              <h3>Hər Gün 1 İltifat</h3>
+              <p>
+                Günə kiçik bir müsbət toxunuş əlavə edən iltifat səhifəsi. Tək
+                bir fikrə fokuslanan yüngül veb təcrübə.
+              </p>
+              <div class="archive-links">
+                <a
+                  class=""
+                  href="https://ericismyhero.github.io/her-gun-1-iltifat/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Saytı aç<svg class="icon" aria-hidden="true">
+                    <use href="#arrow-up-right" /></svg></a
+                ><a
+                  class=""
+                  href="https://github.com/EricIsMyHero/her-gun-1-iltifat"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Kod<svg class="icon" aria-hidden="true">
+                    <use href="#arrow-up-right" /></svg
+                ></a>
+              </div>
+            </article>
+            <article class="archive-card" data-category="games">
+              <div class="archive-top">
+                <span class="mono">07 / Oyun dünyası · Kartlar</span
+                ><span class="archive-mark" aria-hidden="true">⌘</span>
+              </div>
+              <h3>Clash-A-Mana</h3>
+              <p>
+                Uydurma personajlar, kartlar və oyun dünyası ətrafında qurulmuş
+                layihə. Yaradıcılıqla veb interfeysinin birləşdiyi məkan.
+              </p>
+              <div class="archive-links">
+                <a
+                  class=""
+                  href="https://ericismyhero.github.io/oyun/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Saytı aç<svg class="icon" aria-hidden="true">
+                    <use href="#arrow-up-right" /></svg></a
+                ><a
+                  class=""
+                  href="https://github.com/EricIsMyHero/oyun"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Kod<svg class="icon" aria-hidden="true">
+                    <use href="#arrow-up-right" /></svg
+                ></a>
+              </div>
+            </article>
+          </div>
         </div>
-      </div>
-      <div class="card-body">
-        <h3>Əlinin Oyunları</h3>
-        <p>A collection of browser-based mini games. Pure JavaScript, no libraries — just fast, fun, interactive experiences.</p>
-        <div class="card-tags">
-          <span class="card-tag">JavaScript</span><span class="card-tag">Canvas</span><span class="card-tag">CSS</span>
+      </section>
+      <section
+        class="section container about-section"
+        id="about"
+        aria-labelledby="about-title"
+      >
+        <div class="about-portrait">
+          <div class="portrait-top mono">
+            <span>İDEYALARIN ARXASINDA</span><span>↙</span>
+          </div>
+          <img
+            src="profil.jpg"
+            width="869"
+            height="1545"
+            alt="Əlinin şəxsi fotosu"
+            loading="lazy"
+          />
+          <div class="portrait-caption">
+            <span>Əli</span><span class="mono">@EricIsMyHero</span>
+          </div>
+          <span class="portrait-stamp" aria-hidden="true"
+            >HƏM MƏNTİQ.<br />HƏM YARADICILIQ.</span
+          >
         </div>
-        <div class="card-story-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Click to read the story</div>
-      </div>
-    </div>
-
-    <div class="project-card reveal"
-         data-title="Eşq Ölçər"
-         data-tried="I wanted to build something playful — not every project needs to be serious. A love calculator felt like a fun way to experiment with UI animations and sharing mechanics."
-         data-built="The 'calculation' is intentionally random but animated to feel meaningful. Sharing was added last and turned out to be the most-used feature."
-         data-result="Users share fun things. Adding a share button doubled engagement. Never underestimate social mechanics, even in small projects.">
-      <div class="card-thumb" style="background:linear-gradient(135deg, #1a0a0a, #4a1010);">
-        ❤️
-        <div class="card-thumb-overlay">
-          <a href="https://ericismyhero.github.io/eshq-olcher/" target="_blank" class="thumb-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Live
-          </a>
-          <a href="https://github.com/EricIsMyHero" target="_blank" class="thumb-link">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 09.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-            Code
-          </a>
+        <div class="about-copy">
+          <p class="eyebrow section-kicker">03 / HAQQIMDA</p>
+          <h2 id="about-title">
+            Salam, mən Əliyəm.<br /><em>Qurmağı sevirəm.</em>
+          </h2>
+          <p class="about-lead">
+            Marağım bir sualla başlayır: “Bunu daha faydalı, daha aydın və daha
+            maraqlı etmək olarmı?”
+          </p>
+          <p>
+            AliVerse Studio şəxsi layihələrimi bir araya gətirdiyim məkandır.
+            Tələbələr üçün gündəlik alətlərdən media arxivlərinə və brauzer
+            oyunlarına qədər müxtəlif ideyaları veb üzərində həyata keçirirəm.
+          </p>
+          <p>
+            İşlərimdə aydın interfeysə, mobil istifadəyə və məzmunun rahat
+            təqdimatına önəm verirəm. Açıq mənbə paylaşmaq isə həm inkişaf
+            yolumu göstərməyin, həm də başqalarının fikirlərindən öyrənməyin bir
+            yoludur.
+          </p>
+          <div class="about-facts">
+            <div>
+              <span class="fact-number">10</span
+              ><span>Bu portfeldə layihə</span>
+            </div>
+            <div>
+              <span class="fact-number">03</span><span>Fərqli istiqamət</span>
+            </div>
+            <div>
+              <span class="fact-number">&lt;/&gt;</span
+              ><span>Açıq mənbəli işlər</span>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="card-body">
-        <h3>Eşq Ölçər</h3>
-        <p>A fun, interactive love calculator with animated results. Playful UX with smooth transitions and sharing features.</p>
-        <div class="card-tags">
-          <span class="card-tag">HTML</span><span class="card-tag">CSS</span><span class="card-tag">JS</span>
+      </section>
+      <section
+        class="section container expertise-section"
+        id="expertise"
+        aria-labelledby="expertise-title"
+      >
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow section-kicker">04 / BACARIQLAR &amp; YANAŞMA</p>
+            <h2 id="expertise-title">
+              Sadə görünən işin<br /><span class="muted-heading"
+                >arxasındakı detallar.</span
+              >
+            </h2>
+          </div>
+          <p class="section-description">
+            İstifadə etdiyim texnologiyalar və layihəni fikirdən işləyən
+            versiyaya aparan yanaşmam.
+          </p>
         </div>
-        <div class="card-story-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Click to read the story</div>
-      </div>
-    </div>
-
-    <div class="project-card reveal"
-         data-title="Bir Şans Daha?"
-         data-tried="I wanted to explore storytelling through code — can a webpage make someone feel something? This was my experiment with using web as an emotional medium."
-         data-built="CSS keyframe animations timed to tell a narrative. The pacing was everything — I iterated on animation delays for hours to get the emotional timing right."
-         data-result="Code can carry emotion. Timing and restraint matter more than flashy effects. Sometimes the simplest interaction — a fade, a pause — hits hardest.">
-      <div class="card-thumb" style="background:linear-gradient(135deg, #0a1a0f, #1a4a2a);">
-        🌿
-        <div class="card-thumb-overlay">
-          <a href="https://ericismyhero.github.io/bir-shans-daha-/" target="_blank" class="thumb-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Live
-          </a>
-          <a href="https://github.com/EricIsMyHero" target="_blank" class="thumb-link">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-            Code
-          </a>
+        <div class="expertise-grid">
+          <article>
+            <span class="expertise-icon" aria-hidden="true">&lt;/&gt;</span>
+            <h3>İnterfeys tərtibatı</h3>
+            <p>
+              Məzmunun aydın iyerarxiyası, müxtəlif ekran ölçülərinə uyğun
+              səhifələr və düşünülmüş interaksiyalar.
+            </p>
+            <div class="skill-list">
+              <span>HTML5</span><span>CSS3</span><span>JavaScript</span
+              ><span>Responsive dizayn</span>
+            </div>
+          </article>
+          <article>
+            <span class="expertise-icon" aria-hidden="true">{ }</span>
+            <h3>Tətbiq məntiqi</h3>
+            <p>
+              Dinamik məzmun, brauzer yaddaşı, API inteqrasiyaları və
+              istifadəçinin seçiminə cavab verən alətlər.
+            </p>
+            <div class="skill-list">
+              <span>DOM &amp; hadisələr</span><span>JSON / REST API</span
+              ><span>LocalStorage</span><span>Firebase</span>
+            </div>
+          </article>
+          <article>
+            <span class="expertise-icon" aria-hidden="true">↗</span>
+            <h3>Yayımlama &amp; inkişaf</h3>
+            <p>
+              Versiya nəzarəti, statik yayımlama, serverless funksiyalar və
+              layihələrin mərhələli təkmilləşdirilməsi.
+            </p>
+            <div class="skill-list">
+              <span>Git &amp; GitHub</span><span>GitHub Pages</span
+              ><span>Vercel</span><span>PWA / Cloudflare R2</span>
+            </div>
+          </article>
         </div>
-      </div>
-      <div class="card-body">
-        <h3>Bir Şans Daha?</h3>
-        <p>An emotionally-driven interactive web experience. Delicate animations, personal storytelling through code.</p>
-        <div class="card-tags">
-          <span class="card-tag">HTML</span><span class="card-tag">CSS Animations</span><span class="card-tag">JS</span>
+        <div class="process">
+          <div class="process-intro">
+            <p class="eyebrow">İŞ PRİNSİPİM</p>
+            <h3>Bir fikirdən<br />işləyən versiyaya.</h3>
+          </div>
+          <ol>
+            <li>
+              <span class="mono">01</span>
+              <div>
+                <h4>Anlamaq</h4>
+                <p>
+                  Kim üçün və hansı ehtiyaca cavab verdiyini müəyyənləşdirmək.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span class="mono">02</span>
+              <div>
+                <h4>Sadələşdirmək</h4>
+                <p>Məzmunu və əsas istifadə axınını aydın qurmaq.</p>
+              </div>
+            </li>
+            <li>
+              <span class="mono">03</span>
+              <div>
+                <h4>Hazırlamaq</h4>
+                <p>İnterfeysi və məntiqi işləyən bir təcrübədə birləşdirmək.</p>
+              </div>
+            </li>
+            <li>
+              <span class="mono">04</span>
+              <div>
+                <h4>Təkmilləşdirmək</h4>
+                <p>
+                  Yoxlamaq, paylaşmaq və növbəti versiyanı daha yaxşı etmək.
+                </p>
+              </div>
+            </li>
+          </ol>
         </div>
-        <div class="card-story-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Click to read the story</div>
-      </div>
-    </div>
-
-    <div class="project-card reveal"
-         data-title="Hər Gün 1 İltifat"
-         data-tried="Small things change your day. I wanted to build something that consistently delivers a tiny moment of positivity — one compliment per visit, no more."
-         data-built="LocalStorage tracks the last visit date. If it's a new day, a new compliment rotates in. The constraint of one-per-day was intentional — scarcity makes it feel more special."
-         data-result="Constraints are creative tools. Limiting to one compliment per day made people come back. The best features are sometimes the ones you don't build.">
-      <div class="card-thumb" style="background:linear-gradient(135deg, #1a1000, #4a3200);">
-        ☀️
-        <div class="card-thumb-overlay">
-          <a href="https://ericismyhero.github.io/her-gun-1-iltifat/" target="_blank" class="thumb-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Live
-          </a>
-          <a href="https://github.com/EricIsMyHero" target="_blank" class="thumb-link">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-            Code
-          </a>
+      </section>
+      <section
+        class="contact-section"
+        id="contact"
+        aria-labelledby="contact-title"
+      >
+        <div class="container">
+          <div class="contact-top">
+            <p class="eyebrow">05 / ƏLAQƏ</p>
+            <span class="mono">YENİ BİR SÖHBƏTƏ AÇIQ</span>
+          </div>
+          <div class="contact-main">
+            <div>
+              <h2 id="contact-title">
+                Yaxşı ideyalar<br /><em>söhbətlə başlayır.</em>
+              </h2>
+              <p>
+                Layihə haqqında danışmaq, fikir paylaşmaq və ya sadəcə salam
+                vermək istəyirsənsə, mənə yaz.
+              </p>
+            </div>
+            <a
+              class="contact-arrow"
+              href="mailto:ericismyhero2467@gmail.com"
+              aria-label="Əliyə e-poçt yaz"
+              ><svg class="icon" aria-hidden="true">
+                <use href="#arrow-up-right" /></svg
+            ></a>
+          </div>
+          <div class="contact-bottom">
+            <div class="email-group">
+              <a class="email-link" href="mailto:ericismyhero2467@gmail.com"
+                >ericismyhero2467@gmail.com</a
+              ><button
+                type="button"
+                class="copy-button enhanced"
+                id="copy-email"
+                aria-label="E-poçt ünvanını kopyala"
+              >
+                Kopyala <span aria-hidden="true">⧉</span></button
+              ><span
+                class="copy-status"
+                id="copy-status"
+                role="status"
+                aria-live="polite"
+              ></span>
+            </div>
+            <div class="contact-socials">
+              <a
+                class=""
+                href="https://github.com/EricIsMyHero"
+                target="_blank"
+                rel="noopener noreferrer"
+                >GitHub<svg class="icon" aria-hidden="true">
+                  <use href="#arrow-up-right" /></svg
+              ></a>
+              <a
+                class=""
+                href="https://www.youtube.com/@ericismyhero"
+                target="_blank"
+                rel="noopener noreferrer"
+                >YouTube<svg class="icon" aria-hidden="true">
+                  <use href="#arrow-up-right" /></svg
+              ></a>
+              <a
+                class=""
+                href="https://www.instagram.com/the.real.ali77"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Instagram<svg class="icon" aria-hidden="true">
+                  <use href="#arrow-up-right" /></svg
+              ></a>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="card-body">
-        <h3>Hər Gün 1 İltifat</h3>
-        <p>Daily compliment generator — a small app that brightens someone's day with a thoughtful, rotating message each visit.</p>
-        <div class="card-tags">
-          <span class="card-tag">JavaScript</span><span class="card-tag">CSS</span><span class="card-tag">LocalStorage</span>
-        </div>
-        <div class="card-story-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Click to read the story</div>
-      </div>
-    </div>
-
-    <div class="project-card reveal"
-         data-title="Clash-A-Mana"
-         data-tried="I wanted to explore character design through code — creating personalities and stats for fictional characters without any game engine."
-         data-built="Pure HTML/CSS/JS. Each character has defined attributes in a JS object. The 'clash' logic compares stats with some randomness added to keep it interesting."
-         data-result="Data structures can create personality. Designing the character objects taught me more about object-oriented thinking than any tutorial.">
-      <div class="card-thumb" style="background:linear-gradient(135deg, #0d2137, #1a4a6b);">
-        🎮
-        <div class="card-thumb-overlay">
-          <a href="https://EricIsMyHero.github.io/oyun/" target="_blank" class="thumb-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Live
-          </a>
-          <a href="https://github.com/EricIsMyHero" target="_blank" class="thumb-link">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-            Code
-          </a>
-        </div>
-      </div>
-      <div class="card-body">
-        <h3>Clash-A-Mana</h3>
-        <p>A collection of un-realistic characters for imaginary game. Pure JavaScript, no libraries — just for fun, interactive experiences.</p>
-        <div class="card-tags">
-          <span class="card-tag">HTML</span><span class="card-tag">JavaScript</span><span class="card-tag">CSS</span>
-        </div>
-        <div class="card-story-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Click to read the story</div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ── BLOG / LEARNINGS ───────────────────────────────── -->
-<div class="section reveal" id="blog">
-  <div class="section-header">
-    <span class="section-num">02</span>
-    <h2 class="section-title">Learnings</h2>
-    <div class="section-line"></div>
-  </div>
-
-  <div class="blog-grid">
-
-    <div class="blog-card reveal">
-      <div class="blog-date">April 2026</div>
-      <h3>Why I stopped chasing perfect code</h3>
-      <p>Shipped code beats perfect code every time. I used to rewrite things 3 times before publishing — now I ship first and improve later.</p>
-      <a href="#" class="blog-link">Read more <span class="blog-link-arrow">→</span></a>
-    </div>
-
-    <div class="blog-card reveal">
-      <div class="blog-date">March 2026</div>
-      <h3>What I learned from building small projects</h3>
-      <p>Small projects teach more than tutorials. You hit real walls, figure out real solutions, and actually remember what you learned.</p>
-      <a href="#" class="blog-link">Read more <span class="blog-link-arrow">→</span></a>
-    </div>
-
-    <div class="blog-card reveal">
-      <div class="blog-date">February 2026</div>
-      <h3>Emotion is a feature, not a detail</h3>
-      <p>The projects people share and come back to aren't always the most technically impressive. They're the ones that made them feel something.</p>
-      <a href="#" class="blog-link">Read more <span class="blog-link-arrow">→</span></a>
-    </div>
-
-  </div>
-</div>
-
-<!-- ── ABOUT ──────────────────────────────────────────── -->
-<div class="section reveal" id="about">
-  <div class="section-header">
-    <span class="section-num">03</span>
-    <h2 class="section-title">About Me</h2>
-    <div class="section-line"></div>
-  </div>
-
-  <div class="about-grid">
-    <div class="about-image-wrap reveal">
-      <div class="about-image-frame">
-        👤
-      </div>
-      <div class="about-badge">
-        <span>1+</span>
-        Year of building
-      </div>
-    </div>
-
-    <!-- CHANGED: about text → creator voice -->
-    <div class="about-content reveal">
-      <p>I'm <strong>Ali</strong> — I build small web projects, experiments, and ideas that come to my mind. This site is a collection of things I've created and learned from.</p>
-      <p>I don't focus on perfection. I focus on trying, building, and improving with each project. Every page here represents something I explored, broke, fixed, and eventually shipped.</p>
-      <p>If you enjoy these kinds of projects or want to talk about ideas, <strong>feel free to reach out</strong>. I'm always happy to connect with people who like building things.</p>
-
-      <div class="about-stats">
+      </section>
+    </main>
+    <footer class="site-footer container">
+      <a class="footer-brand" href="#home">AliVerse Studio<span>✳</span></a>
+      <p>© <span id="year">2026</span> Əli. Maraqla hazırlanıb.</p>
+      <details class="more-socials">
+        <summary>Digər profillər <span aria-hidden="true">+</span></summary>
         <div>
-          <div class="astat-num">10<sup>+</sup></div>
-          <div class="astat-label">Projects</div>
+          <a
+            href="https://www.tiktok.com/@ericismyhero_"
+            target="_blank"
+            rel="noopener noreferrer"
+            >TikTok ↗</a
+          ><a
+            href="https://discord.gg/62wNrV79HR"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Discord ↗</a
+          ><a
+            href="https://open.spotify.com/user/r54xg6cy20z3k1xuif2lrjmu7"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Spotify ↗</a
+          >
         </div>
-        <div>
-          <div class="astat-num">8<sup>+</sup></div>
-          <div class="astat-label">Technologies</div>
+      </details>
+      <a class="back-top" href="#home">Yuxarı qayıt ↑</a>
+    </footer>
+    <dialog
+      class="project-dialog"
+      id="project-dialog"
+      aria-labelledby="dialog-title"
+    >
+      <div class="dialog-inner">
+        <div class="dialog-top">
+          <span class="eyebrow" id="dialog-category"></span
+          ><button
+            class="dialog-close"
+            type="button"
+            aria-label="Layihə məlumatını bağla"
+          >
+            <svg class="icon" aria-hidden="true">
+              <use href="#close-icon" />
+            </svg>
+          </button>
         </div>
-        <div>
-          <div class="astat-num">∞</div>
-          <div class="astat-label">Coffee cups</div>
+        <h2 id="dialog-title"></h2>
+        <p class="dialog-intro" id="dialog-intro"></p>
+        <div id="dialog-body"></div>
+        <div class="dialog-links">
+          <a
+            class="button button-primary"
+            id="dialog-demo"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Saytı aç
+            <svg class="icon" aria-hidden="true">
+              <use href="#arrow-up-right" /></svg></a
+          ><a
+            class="text-link"
+            id="dialog-code"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Mənbə kodu
+            <svg class="icon" aria-hidden="true">
+              <use href="#arrow-up-right" /></svg
+          ></a>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-
-<!-- ── SKILLS ─────────────────────────────────────────── -->
-<div class="section reveal" id="skills">
-  <div class="section-header">
-    <span class="section-num">04</span>
-    <h2 class="section-title">Skills & Tools</h2>
-    <div class="section-line"></div>
-  </div>
-
-  <div class="skills-wrap">
-    <div class="skill-pill">HTML5</div>
-    <div class="skill-pill">CSS3</div>
-    <div class="skill-pill">JavaScript</div>
-    <div class="skill-pill">Git</div>
-    <div class="skill-pill">GitHub</div>
-    <div class="skill-pill">GitHub Pages</div>
-    <div class="skill-pill">Responsive Design</div>
-    <div class="skill-pill">CSS Animations</div>
-    <div class="skill-pill">Figma</div>
-    <div class="skill-pill">VS Code</div>
-    <div class="skill-pill">JSON / APIs</div>
-    <div class="skill-pill">Performance</div>
-  </div>
-</div>
-
-<!-- ── FOOTER / CONTACT ───────────────────────────────── -->
-<footer class="footer reveal" id="contact">
-  <div class="footer-top">
-    <!-- CHANGED: footer CTA → connection-focused, not job-focused -->
-    <div class="footer-cta">
-      <h2>Liked something?<br>Let's <em>talk</em>.</h2>
-      <p>I enjoy sharing ideas, building small projects, and connecting with people who like to create.</p>
-    </div>
-    <div class="footer-links">
-      <a href="mailto:ericismyhero2467@gmail.com" class="footer-link">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
-        ericismyhero2467@gmail.com
-      </a>
-      <a href="https://github.com/EricIsMyHero" target="_blank" rel="noopener" class="footer-link">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-        github.com/EricIsMyHero
-      </a>
-      <a href="https://www.youtube.com/@ericismyhero" target="_blank" rel="noopener" class="footer-link">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-        YouTube — @ericismyhero
-      </a>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <div class="footer-logo">AliVerse Studio ✦<span>.</span></div>
-    <div>Designed & built by Ali · 2025 - 2026</div>
-    <div style="display:flex;gap:18px;">
-      <a href="https://www.instagram.com/the.real.ali77" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='#f0ebe0'" onmouseout="this.style.color=''">Instagram</a>
-      <a href="https://www.tiktok.com/@ericismyhero_" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='#f0ebe0'" onmouseout="this.style.color=''">Tik Tok</a>
-      <a href="https://discord.gg/62wNrV79HR" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='#f0ebe0'" onmouseout="this.style.color=''">Discord</a>
-      <a href="https://open.spotify.com/user/r54xg6cy20z3k1xuif2lrjmu7" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none;font-size:13px;transition:color 0.2s;" onmouseover="this.style.color='#f0ebe0'" onmouseout="this.style.color=''">Spotify</a>
-    </div>
-  </div>
-</footer>
-
-</div><!-- /.page-wrapper -->
-
-<!-- ── PROJECT STORY MODAL ───────────────────────────── -->
-<div id="projectModal" class="modal" role="dialog" aria-modal="true">
-  <div class="modal-content">
-    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
-    <div class="modal-badge">Project Story</div>
-    <h2 id="modalTitle"></h2>
-    <div class="modal-block">
-      <h4>What I tried</h4>
-      <p id="modalTried"></p>
-    </div>
-    <div class="modal-block">
-      <h4>How I built it</h4>
-      <p id="modalBuilt"></p>
-    </div>
-    <div class="modal-block">
-      <h4>What I learned</h4>
-      <p id="modalResult"></p>
-    </div>
-  </div>
-</div>
-
-<script>
-// Navbar scroll effect
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 40);
-}, { passive: true });
-
-// Scroll reveal via IntersectionObserver
-const reveals = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      const siblings = [...entry.target.parentElement.querySelectorAll('.reveal:not(.visible)')];
-      const delay = siblings.indexOf(entry.target) * 80;
-      setTimeout(() => entry.target.classList.add('visible'), delay);
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-reveals.forEach(el => observer.observe(el));
-
-// Project Story Modal
-const modal = document.getElementById('projectModal');
-const modalClose = document.getElementById('modalClose');
-const modalTitle = document.getElementById('modalTitle');
-const modalTried = document.getElementById('modalTried');
-const modalBuilt = document.getElementById('modalBuilt');
-const modalResult = document.getElementById('modalResult');
-
-function openModal(card) {
-  if (!card.dataset.title) return;
-  modalTitle.textContent = card.dataset.title;
-  modalTried.textContent = card.dataset.tried;
-  modalBuilt.textContent = card.dataset.built;
-  modalResult.textContent = card.dataset.result;
-  modal.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeModal() {
-  modal.classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-document.querySelectorAll('.project-card[data-title]').forEach(card => {
-  card.addEventListener('click', (e) => {
-    // Don't open modal if user clicked a link inside the card
-    if (e.target.closest('a')) return;
-    openModal(card);
-  });
-  card.style.cursor = 'pointer';
-});
-
-modalClose.addEventListener('click', closeModal);
-modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
-</script>
-</body>
+    </dialog>
+  </body>
 </html>

@@ -5,9 +5,19 @@
   },
   "websites": [
     {
-      "title": "Unec İmtahan Materialları",
-      "url": "https://ericismyhero.github.io/unecimtahanmateriallari/",
+      "title": "UNEC Students Hub",
+      "url": "https://unecstudentshub.com",
       "icon": "fas fa-blog"
+    },
+    {
+      "title": "K.A.D.R — Şəxsi video arxivi",
+      "url": "https://ericismyhero.github.io/k.a.d.r/",
+      "icon": "fas fa-film"
+    },
+    {
+      "title": "Əli’s Arcade — Brauzer oyunları",
+      "url": "https://ericismyhero.github.io/mini-games/",
+      "icon": "fas fa-gamepad"
     },
     {
       "title": "Səni Sevməyimin 200 Səbəbi",
@@ -21,7 +31,7 @@
     },
     {
       "title": "Hər Gün 1 iltifat",
-      "url": "https://ericismyhero.github.io/her-g-n-1-iltifat/",
+      "url": "https://ericismyhero.github.io/her-gun-1-iltifat/",
       "icon": "fas fa-kiss-wink-heart"
     },
     {
@@ -38,6 +48,11 @@
       "title": "Eşq Ölçər",
       "url": "https://EricIsMyHero.github.io/eshq-olcher/",
       "icon": "fa-solid fa-face-grin-hearts"
+    },
+    {
+      "title": "Clash-A-Mana",
+      "url": "https://ericismyhero.github.io/oyun/",
+      "icon": "fas fa-dice"
     }
   ],
   "social": [
